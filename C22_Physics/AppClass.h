@@ -9,6 +9,7 @@ Date: 2017/06
 
 #include "ControllerConfiguration.h"
 #include "imgui\ImGuiObject.h"
+#include "LaneGrid.h"
 
 #include "MyEntityManager.h"
 
@@ -55,6 +56,9 @@ private:
 	sf::SoundBuffer m_soundBuffer; //buffer to play sound from
 	sf::Sound m_sound; //sound effect
 	sf::Music m_soundBGM; //background music
+
+
+	LaneGrid* laneGrid;
 
 public:
 #pragma region Constructor / Run / Destructor

@@ -12,7 +12,8 @@ void Application::InitVariables(void)
 
 	m_pEntityMngr->AddEntity("Minecraft\\Steve.obj", "Steve");
 	m_pEntityMngr->UsePhysicsSolver();
-	
+
+	/*
 	for (int i = 0; i < 100; i++)
 	{
 		m_pEntityMngr->AddEntity("Minecraft\\Cube.obj", "Cube_" + std::to_string(i));
@@ -24,15 +25,15 @@ void Application::InitVariables(void)
 		//m_pEntityMngr->SetMass(2);
 
 		//m_pEntityMngr->SetMass(i+1);
-	}
+	}*/
+
+	laneGrid = LaneGrid::Instance();
+	
 }
 void Application::Update(void)
 {
 	//Update the system so it knows how much time has passed since the last call
 	m_pSystem->Update();
-
-	//Is the ArcBall active?
-	ArcBall();
 
 	//Is the first person camera active?
 	CameraRotation();
@@ -47,6 +48,7 @@ void Application::Update(void)
 	m_pEntityMngr->AddEntityToRenderList(-1, true);
 	//m_pEntityMngr->AddEntityToRenderList(-1, true);
 }
+
 void Application::Display(void)
 {
 	// Clear the screen
@@ -54,6 +56,8 @@ void Application::Display(void)
 
 	// draw a skybox
 	m_pMeshMngr->AddSkyboxToRenderList();
+
+	laneGrid->Display();
 
 	//render list call
 	m_uRenderCallCount = m_pMeshMngr->Render();
@@ -71,7 +75,7 @@ void Application::Release(void)
 {
 	//Release MyEntityManager
 	MyEntityManager::ReleaseInstance();
-
+	SafeDelete(laneGrid);
 	//release GUI
 	ShutdownGUI();
 }
