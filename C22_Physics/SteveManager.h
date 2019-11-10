@@ -6,19 +6,27 @@ Date: 2019/11
 #define STEVEMANAGER_H
 
 #include "Definitions.h"
-#include "Simplex/Mesh/Model.h"
-#include "MyEntity.h"
+#include "LaneGrid.h"
 
 
 namespace Simplex{
 class SteveManager
 {
-    uint m_steveCount;
+    uint m_steveCount = 0;
+    LaneGrid* m_pLaneGrid = nullptr;
 
 public:
     // Default Constructor and Destructor
     SteveManager();
     ~SteveManager();
+
+    void Init();
+
+    // This method handles:
+    // - Checking for dead Steves 
+    // - Moving Steves forward
+    // - Spawning new Steves (if necessary)
+    void Update();
 
     #pragma region Singleton-specific method definitions + implementation
     // Allows external agents access to the SteveManager singleton through static pointer
@@ -41,7 +49,16 @@ public:
     }
     #pragma endregion
 
-private:
+private: // Methods
+
+    // Steve-Spawning Methods + Overrides
+    void SpawnSteve(uint a_laneIndex = 0);  // Random direction vector
+    void SpawnSteve(vector3 a_direction, uint a_laneIndex = 0); // Specific direction vector
+
+    void UpdateSteveCollisions();      // Bounce steves off each other
+    void UpdateProjectileCollisions(); // Cleanup steves hit by artillery
+
+private: // Members
     static SteveManager* m_pInstance;
 };
 }
