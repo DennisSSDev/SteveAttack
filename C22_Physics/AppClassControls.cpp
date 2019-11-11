@@ -79,6 +79,9 @@ void Application::ProcessKeyPressed(sf::Event a_event)
 	case sf::Keyboard::RShift:
 		m_bModifier = true;
 		break;
+	case sf::Keyboard::P:
+		projectile = new Projectile();
+		break;
 	}
 
 	//gui
@@ -413,8 +416,6 @@ void Application::ProcessKeyboard(void)
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
 		m_pCameraMngr->MoveVertical(m_fMovementSpeed * fMultiplier);
 	*/
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::P))
-		projectile = new Projectile();
 #pragma endregion
 
 #pragma region Character Position

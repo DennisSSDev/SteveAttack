@@ -23,10 +23,15 @@ Projectile::~Projectile()
 void Projectile::SpawnProjectile()
 {
 	//Get the position of the active camera
-	spawnPoint = vector3(-1.0f, 5.0f, 25.0f); //Found from AppClass.cpp and modified to be more centered
+	spawnPoint = camera->GetPosition(-1);
+	spawnPoint.x -= 0.5f; //Added to make more centered, otherwise the left edge of the cube would be centered not the cube itself
+
+	vector3 force = camera->GetForward();
 
 	//Spawn in the cube
 	entityManager->AddEntity("Minecraft\\Cube.obj", "Block");
 	matrix4 m4Position = glm::translate(spawnPoint);
-	entityManager->SetModelMatrix(m4Position * glm::scale(vector3(2.0f)));
+	entityManager->SetModelMatrix(m4Position);
+	entityManager->UsePhysicsSolver();
+	entityManager->ApplyForce(force * 2.0f);
 }
