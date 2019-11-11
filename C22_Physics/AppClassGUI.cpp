@@ -7,17 +7,10 @@ void Application::DrawGUI(void)
 #pragma region GUI Information
 	UI* ui = UI::Instance();
 	String* uiInfo = ui->GetGuiInfo();
-	//Print info on the screen
-	uint nEmptyLines = 20;
-	for (uint i = 0; i < nEmptyLines; ++i)
-		m_pMeshMngr->PrintLine("");//Add a line on top
 
-	m_pMeshMngr->PrintLine(uiInfo[0], C_YELLOW);
-	m_pMeshMngr->PrintLine(uiInfo[1], C_YELLOW);
-
-	//m_pMeshMngr->Print("						");
-	m_pMeshMngr->Print("FPS:");
-	m_pMeshMngr->PrintLine(std::to_string(m_pSystem->GetFPS()), C_RED);
+	m_pMeshMngr->Print(uiInfo[0], C_YELLOW);
+	m_pMeshMngr->Print("                                                 ");
+	m_pMeshMngr->PrintLine(uiInfo[1], C_RED);
 #pragma endregion
 
 	//Calculate the window size to know how to draw
