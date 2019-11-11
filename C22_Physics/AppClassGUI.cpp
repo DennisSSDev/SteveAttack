@@ -4,18 +4,16 @@ using namespace Simplex;
 ImGuiObject Application::gui;
 void Application::DrawGUI(void)
 {
-#pragma region Debugging Information
+#pragma region GUI Information
+	UI* ui = UI::Instance();
+	String* uiInfo = ui->GetGuiInfo();
 	//Print info on the screen
 	uint nEmptyLines = 20;
 	for (uint i = 0; i < nEmptyLines; ++i)
 		m_pMeshMngr->PrintLine("");//Add a line on top
-	//m_pMeshMngr->Print("						");
-	m_pMeshMngr->PrintLine(m_pSystem->GetAppName(), C_YELLOW);
-	//m_pMeshMngr->Print("						");
 
-	//m_pMeshMngr->Print("						");
-	m_pMeshMngr->Print("RenderCalls: ");//Add a line on top
-	m_pMeshMngr->PrintLine(std::to_string(m_uRenderCallCount), C_YELLOW);
+	m_pMeshMngr->PrintLine(uiInfo[0], C_YELLOW);
+	m_pMeshMngr->PrintLine(uiInfo[1], C_YELLOW);
 
 	//m_pMeshMngr->Print("						");
 	m_pMeshMngr->Print("FPS:");
@@ -28,11 +26,8 @@ void Application::DrawGUI(void)
 	static ImVec4 v4Color = ImColor(255, 0, 0);
 	ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar;
 
-	UI* ui = UI::Instance();
-	String* uiInfo = ui->GetGuiInfo();
-
 	//Main Window
-	if (m_bGUI_Main)
+	if (m_bGUI_Main && showDebug)
 	{
 		ImGui::SetNextWindowPos(ImVec2(1, 1), ImGuiSetCond_FirstUseEver);
 		ImGui::SetNextWindowSize(ImVec2(340, 60), ImGuiSetCond_FirstUseEver);
@@ -40,7 +35,10 @@ void Application::DrawGUI(void)
 		ImGui::Begin(sAbout.c_str(), (bool*)0, window_flags);
 		{
 			ImGui::Text("Programmers: \n");
-			ImGui::TextColored(v4Color, m_sProgrammer.c_str());
+			ImGui::TextColored(v4Color, m_sProgrammer1.c_str());
+			ImGui::TextColored(v4Color, m_sProgrammer2.c_str());
+			ImGui::TextColored(v4Color, m_sProgrammer3.c_str());
+			ImGui::TextColored(v4Color, m_sProgrammer4.c_str());
 			ImGui::Text("FrameRate: %.2f [FPS] -> %.3f [ms/frame]\n",
 				ImGui::GetIO().Framerate, 1000.0f / ImGui::GetIO().Framerate);
 			ImGui::Separator();
@@ -53,8 +51,7 @@ void Application::DrawGUI(void)
 			ImGui::Separator();
 			ImGui::Text("Arrows: Apply force to Steve\n");
 			ImGui::Separator();
-			ImGui::Text(uiInfo[0].c_str());
-			ImGui::Text(uiInfo[1].c_str());
+			ImGui::Text("Tab to toggle debug box");
 		}
 		ImGui::End();
 	}

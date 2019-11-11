@@ -126,6 +126,10 @@ void Application::ProcessKeyReleased(sf::Event a_event)
 	case sf::Keyboard::LShift:
 	case sf::Keyboard::RShift:
 		m_bModifier = false;
+		break;
+	case sf::Keyboard::Tab: //toggle debug box view
+		showDebug = !showDebug;
+		break;
 	}
 
 	//gui

@@ -21,7 +21,10 @@ class Application
 {
 	MyEntityManager* m_pEntityMngr = nullptr; //Entity Manager
 private:
-	String m_sProgrammer = "Alberto Bobadilla - labigm@rit.edu"; //programmer
+	String m_sProgrammer1 = "Dennis Slavinsky - dxs4043@rit.edu"; //programmer1
+	String m_sProgrammer2 = "Vincent Bennett - mmb7755@rit.edu"; //programmer 2
+	String m_sProgrammer3 = "Ruben Young - "; //programmer 3
+	String m_sProgrammer4 = "Anthony Ferraioli - amf7619@rit.edu"; //programmer 4
 
 	static ImGuiObject gui; //GUI object
 	bool m_bGUI_Main = true; //show Main GUI window?
@@ -57,6 +60,8 @@ private:
 	sf::SoundBuffer m_soundBuffer; //buffer to play sound from
 	sf::Sound m_sound; //sound effect
 	sf::Music m_soundBGM; //background music
+
+	bool showDebug = false; //displays debug box on left
 
 
 	LaneGrid* laneGrid;
