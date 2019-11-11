@@ -10,6 +10,7 @@ Date: 2017/06
 #include "ControllerConfiguration.h"
 #include "imgui\ImGuiObject.h"
 #include "LaneGrid.h"
+#include "Projectile.h"
 
 #include "MyEntityManager.h"
 
@@ -59,6 +60,7 @@ private:
 
 
 	LaneGrid* laneGrid;
+	Projectile* projectile;
 
 public:
 #pragma region Constructor / Run / Destructor

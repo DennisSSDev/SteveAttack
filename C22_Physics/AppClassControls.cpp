@@ -397,10 +397,10 @@ void Application::ProcessKeyboard(void)
 	/*
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 		m_pCameraMngr->MoveForward(m_fMovementSpeed * fMultiplier);
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+	*/
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) //Just allowing myself to back up for now to see if the cube is spawned
 		m_pCameraMngr->MoveForward(-m_fMovementSpeed * fMultiplier);
-
+	/*
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 		m_pCameraMngr->MoveSideways(-m_fMovementSpeed * fMultiplier);
 
@@ -413,6 +413,8 @@ void Application::ProcessKeyboard(void)
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
 		m_pCameraMngr->MoveVertical(m_fMovementSpeed * fMultiplier);
 	*/
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::P))
+		projectile = new Projectile();
 #pragma endregion
 
 #pragma region Character Position
