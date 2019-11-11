@@ -35,16 +35,10 @@ void Application::DrawGUI(void)
 			ImGui::Text("FrameRate: %.2f [FPS] -> %.3f [ms/frame]\n",
 				ImGui::GetIO().Framerate, 1000.0f / ImGui::GetIO().Framerate);
 			ImGui::Separator();
-			ImGui::Text("Control:\n");
-			ImGui::Text("   WASD: Movement\n");
-			ImGui::Text("	 F1: Perspective\n");
-			ImGui::Text("	 F2: Orthographic X\n");
-			ImGui::Text("	 F3: Orthographic Y\n");
-			ImGui::Text("	 F4: Orthographic Z\n");
+			ImGui::Text("Controls:\n");
+			ImGui::Text("   Arrow Keys To Move Steve\n");
 			ImGui::Separator();
-			ImGui::Text("Arrows: Apply force to Steve\n");
-			ImGui::Separator();
-			ImGui::Text("Tab to toggle debug box");
+			ImGui::Text("-Tab to toggle debug box-");
 		}
 		ImGui::End();
 	}
