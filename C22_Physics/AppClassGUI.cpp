@@ -1,4 +1,5 @@
 #include "AppClass.h"
+#include "UI.h"
 using namespace Simplex;
 ImGuiObject Application::gui;
 void Application::DrawGUI(void)
@@ -26,6 +27,10 @@ void Application::DrawGUI(void)
 
 	static ImVec4 v4Color = ImColor(255, 0, 0);
 	ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar;
+
+	UI* ui = UI::Instance();
+	String* uiInfo = ui->GetGuiInfo();
+
 	//Main Window
 	if (m_bGUI_Main)
 	{
@@ -34,7 +39,7 @@ void Application::DrawGUI(void)
 		String sAbout = m_pSystem->GetAppName() + " - About";
 		ImGui::Begin(sAbout.c_str(), (bool*)0, window_flags);
 		{
-			ImGui::Text("Programmer: \n");
+			ImGui::Text("Programmers: \n");
 			ImGui::TextColored(v4Color, m_sProgrammer.c_str());
 			ImGui::Text("FrameRate: %.2f [FPS] -> %.3f [ms/frame]\n",
 				ImGui::GetIO().Framerate, 1000.0f / ImGui::GetIO().Framerate);
@@ -47,6 +52,9 @@ void Application::DrawGUI(void)
 			ImGui::Text("	 F4: Orthographic Z\n");
 			ImGui::Separator();
 			ImGui::Text("Arrows: Apply force to Steve\n");
+			ImGui::Separator();
+			ImGui::Text(uiInfo[0].c_str());
+			ImGui::Text(uiInfo[1].c_str());
 		}
 		ImGui::End();
 	}

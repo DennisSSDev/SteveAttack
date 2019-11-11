@@ -34,7 +34,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "glm_dummy::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-glm_dummy-Debug-b46e717d7d2dc7333f4c.json",
+					"jsonFile" : "target-glm_dummy-Debug-ed2766c226ae8c6632b9.json",
 					"name" : "glm_dummy",
 					"projectIndex" : 0
 				}
@@ -44,8 +44,8 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "D:/Profiles/dxs4043/source/repos/Simplex_2191/include/glm/out/build/x64-Debug",
-		"source" : "D:/Profiles/dxs4043/source/repos/Simplex_2191/include/glm"
+		"build" : "C:/Users/Anthony/Desktop/School/Data_Structures_&_Alg_Games_II/SteveAttack/include/glm/out/build/x64-Debug",
+		"source" : "C:/Users/Anthony/Desktop/School/Data_Structures_&_Alg_Games_II/SteveAttack/include/glm"
 	},
 	"version" : 
 	{

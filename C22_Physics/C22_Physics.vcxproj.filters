@@ -61,6 +61,10 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SteveManager.cpp">
+    <ClCompile Include="Projectile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -108,6 +112,10 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SteveManager.h">
+    <ClInclude Include="Projectile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
