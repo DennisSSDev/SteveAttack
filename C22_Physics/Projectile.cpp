@@ -30,8 +30,15 @@ void Projectile::SpawnProjectile()
 
 	//Spawn in the cube
 	entityManager->AddEntity("Minecraft\\Cube.obj", "Block");
+	const uint index = entityManager->GetEntityIndex("Block");
+	entity = entityManager->GetEntity(index);
 	matrix4 m4Position = glm::translate(spawnPoint);
 	entityManager->SetModelMatrix(m4Position);
 	entityManager->UsePhysicsSolver();
 	entityManager->ApplyForce(force * 2.0f);
+}
+
+Simplex::MyEntity* Projectile::GetProjectileEntity() const
+{
+	return entity;
 }

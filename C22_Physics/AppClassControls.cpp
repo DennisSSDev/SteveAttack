@@ -80,7 +80,11 @@ void Application::ProcessKeyPressed(sf::Event a_event)
 		m_bModifier = true;
 		break;
 	case sf::Keyboard::P:
-		projectile = new Projectile();
+		if(projectile == nullptr)
+		{
+			projectile = new Projectile();
+			laneGrid->AddProjectile(projectile->GetProjectileEntity());
+		}
 		break;
 	}
 

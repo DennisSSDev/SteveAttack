@@ -48,6 +48,8 @@ void Application::Update(void)
 	//Set the model matrix for the main object
 	//m_pEntityMngr->SetModelMatrix(m_m4Steve, "Steve");
 
+	laneGrid->Update();
+
     // Update the AI Manager
     // TODO: Find out how to get deltatime
     m_pSteveMngr->Update(1/120.f);
@@ -84,6 +86,7 @@ void Application::Release(void)
 	//Release MyEntityManager
 	MyEntityManager::ReleaseInstance();
 	SafeDelete(laneGrid);
+	SafeDelete(projectile);
     SteveManager::ReleaseInstance();
 	//release GUI
 	ShutdownGUI();

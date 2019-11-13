@@ -31,9 +31,8 @@ uint LaneGrid::AddToLane(Simplex::MyEntity* entity)
 		++trackedBox;
 	}
 	entity->ClearDimensionSet();
-	// todo: add the entity to the floor dimension
 	entity->AddDimension(closestBox);
-	
+	entityLaneMap[closestBox].push_back(entity);
 	return closestBox;
 }
 
@@ -45,7 +44,7 @@ void LaneGrid::AddProjectile(Simplex::MyEntity* projectile)
 
 LaneGrid::~LaneGrid()
 {
-	SafeDelete(projectile);
+	
 }
 
 void LaneGrid::Init()
@@ -82,7 +81,7 @@ void LaneGrid::ExplodeProjectile()
 	{
 		const vector3 distV = entity->GetPosition() - projLocation;
 		const float distSq = dot(distV, distV);
-		if(distSq < 10000.f) // todo: this is where you'd access the projectile's range of effect
+		if(distSq < 10.f) // todo: this is where you'd access the projectile's range of effect
 		{
 			toDeleteEntities.push_back(entity);
 		}
@@ -115,7 +114,7 @@ void LaneGrid::Update()
 	if(!projectile) return;
 	
 	const auto projLocation = projectile->GetPosition();
-	if(projLocation.y > middleLaneLocation.y + 5.f) return;
+	if(projLocation.y > middleLaneLocation.y + 1.f) return;
 	if(!projectileInLane)
 	{
 		projectileInLane = true;
