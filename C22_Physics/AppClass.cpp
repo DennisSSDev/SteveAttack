@@ -2,6 +2,7 @@
 using namespace Simplex;
 void Application::InitVariables(void)
 {
+    
 	//Set the position and target of the camera
 	m_pCameraMngr->SetPositionTargetAndUpward(
 		vector3(0.0f, 5.0f, 25.0f), //Position
@@ -28,6 +29,9 @@ void Application::InitVariables(void)
 	}*/
 
 	laneGrid = LaneGrid::Instance();
+    m_pSteveMngr = SteveManager::GetInstance();
+
+    m_pSteveMngr->Init(3U);
 	
 }
 void Application::Update(void)
@@ -43,6 +47,10 @@ void Application::Update(void)
 
 	//Set the model matrix for the main object
 	//m_pEntityMngr->SetModelMatrix(m_m4Steve, "Steve");
+
+    // Update the AI Manager
+    // TODO: Find out how to get deltatime
+    m_pSteveMngr->Update(1/120.f);
 
 	//Add objects to render list
 	m_pEntityMngr->AddEntityToRenderList(-1, true);
@@ -76,6 +84,7 @@ void Application::Release(void)
 	//Release MyEntityManager
 	MyEntityManager::ReleaseInstance();
 	SafeDelete(laneGrid);
+    SteveManager::ReleaseInstance();
 	//release GUI
 	ShutdownGUI();
 }

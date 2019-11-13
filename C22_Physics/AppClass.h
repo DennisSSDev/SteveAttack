@@ -10,6 +10,7 @@ Date: 2017/06
 #include "ControllerConfiguration.h"
 #include "imgui\ImGuiObject.h"
 #include "LaneGrid.h"
+#include "SteveManager.h"
 #include "Projectile.h"
 
 #include "MyEntityManager.h"
@@ -20,6 +21,7 @@ namespace Simplex
 class Application
 {
 	MyEntityManager* m_pEntityMngr = nullptr; //Entity Manager
+    
 private:
 	String m_sProgrammer1 = "Dennis Slavinsky - dxs4043@rit.edu"; //programmer1
 	String m_sProgrammer2 = "Vincent Bennett - mmb7755@rit.edu"; //programmer 2
@@ -65,6 +67,7 @@ private:
 
 
 	LaneGrid* laneGrid;
+    SteveManager* m_pSteveMngr;
 	Projectile* projectile;
 
 public:
