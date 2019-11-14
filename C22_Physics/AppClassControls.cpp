@@ -11,6 +11,9 @@ void Application::ProcessMouseMovement(sf::Event a_event)
 	if (!m_pSystem->IsWindowFullscreen() && !m_pSystem->IsWindowBorderless())
 		m_v3Mouse += vector3(-8.0f, -32.0f, 0.0f);
 	gui.io.MousePos = ImVec2(m_v3Mouse.x, m_v3Mouse.y);
+
+	//No longer need to hold right mouse button to move camera
+	m_bFPC = true;
 }
 void Application::ProcessMousePressed(sf::Event a_event)
 {
@@ -19,6 +22,12 @@ void Application::ProcessMousePressed(sf::Event a_event)
 	default: break;
 	case sf::Mouse::Button::Left:
 		gui.m_bMousePressed[0] = true;
+		//Release projectile
+		if (projectile == nullptr)
+		{
+			projectile = new Projectile();
+			laneGrid->AddProjectile(projectile->GetProjectileEntity());
+		}
 		break;
 	case sf::Mouse::Button::Middle:
 		gui.m_bMousePressed[1] = true;
@@ -26,7 +35,6 @@ void Application::ProcessMousePressed(sf::Event a_event)
 		break;
 	case sf::Mouse::Button::Right:
 		gui.m_bMousePressed[2] = true;
-		m_bFPC = true;
 		break;
 	}
 
@@ -79,6 +87,7 @@ void Application::ProcessKeyPressed(sf::Event a_event)
 	case sf::Keyboard::RShift:
 		m_bModifier = true;
 		break;
+	//This is still here just in case but now you can click the left mouse button to shoot the projectile
 	case sf::Keyboard::P:
 		if(projectile == nullptr)
 		{
@@ -334,9 +343,17 @@ void Application::CameraRotation(float a_fSpeed)
 	UINT	MouseX, MouseY;		// Coordinates for the mouse
 	UINT	CenterX, CenterY;	// Coordinates for the center of the screen.
 
+	uint MaxMoveVertical, MaxMoveHorizontal; //Maximum value the camera should be able to move in either direction
+	uint LeastMoveVertical, LeastMoveHorizontal; //Minimum value the camera should be able to move in either direction
+
 								//Initialize the position of the pointer to the middle of the screen
 	CenterX = m_pSystem->GetWindowX() + m_pSystem->GetWindowWidth() / 2;
 	CenterY = m_pSystem->GetWindowY() + m_pSystem->GetWindowHeight() / 2;
+
+	MaxMoveVertical = CenterX + m_pSystem->GetWindowHeight() / 2;
+	MaxMoveHorizontal = CenterY + m_pSystem->GetWindowWidth() / 2;
+	LeastMoveVertical = CenterX - m_pSystem->GetWindowHeight() / 2;
+	LeastMoveHorizontal = CenterY - m_pSystem->GetWindowWidth() / 2;
 
 	//Calculate the position of the mouse and store it
 	POINT pt;
@@ -369,6 +386,8 @@ void Application::CameraRotation(float a_fSpeed)
 		fDeltaMouse = static_cast<float>(MouseY - CenterY);
 		fAngleX += fDeltaMouse * a_fSpeed;
 	}
+
+
 	//Change the Yaw and the Pitch of the camera
 	m_pCameraMngr->ChangeYaw(fAngleY * 0.25f);
 	m_pCameraMngr->ChangePitch(-fAngleX * 0.25f);
