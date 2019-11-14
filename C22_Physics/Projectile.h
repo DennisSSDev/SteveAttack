@@ -7,7 +7,7 @@ class Projectile
 public:
 	Projectile();
 	~Projectile();
-	void SpawnProjectile();
+	Projectile* SpawnProjectile();
 	bool SetProjectileActive(bool active);
 	Simplex::MyEntity* GetProjectileEntity() const;
 private:
@@ -15,6 +15,7 @@ private:
 	Simplex::vector3 spawnPoint;
 	Simplex::MyEntityManager* entityManager;
 	Simplex::CameraManager* camera;
+	LaneGrid* laneGrid;
 	bool isActive = false;
 
 	void Init();
