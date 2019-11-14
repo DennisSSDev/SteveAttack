@@ -23,9 +23,6 @@ private:
 	Simplex::MeshManager* meshManager = nullptr;
 	Simplex::MyEntityManager* entityManager = nullptr;
 
-	// map that stores the ids of every entity into a list associated with a particular lane
-	std::unordered_map<glm::uint, std::vector<Simplex::MyEntity*>> entityLaneMap;
-
 	std::unordered_map<glm::uint, std::vector<Simplex::String>> entityIDLaneMap;
 
 	Simplex::vector3 leftLaneLocation;
@@ -37,7 +34,6 @@ private:
 private:
 	void Init();
 	void ExplodeProjectile();
-	void AddEntryInEntityMap(const glm::uint lane, Simplex::MyEntity* entity);
 	
 public:
 	LaneGrid();
@@ -49,10 +45,8 @@ public:
 		return instance;
     }
 
-	const std::unordered_map<glm::uint, std::vector<Simplex::String>>& GetEntityIDMap() 
-	{
-		return entityIDLaneMap;
-	}
+	// lane can only be either 0, 1 or 2 (0 - leftmost, 2 - rightmost from player perspective)
+	const std::vector<Simplex::String>& GetEntityIDMap(const glm::uint& lane);
 	
 
 	/**
