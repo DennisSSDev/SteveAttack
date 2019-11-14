@@ -2,6 +2,7 @@
 
 #include "Simplex/Mesh/Model.h"
 #include "MyEntity.h"
+#include "MyEntityManager.h"
 #include "unordered_map"
 
 class LaneGrid
@@ -20,9 +21,12 @@ private:
 		
 	// singleton to the mesh manager
 	Simplex::MeshManager* meshManager = nullptr;
+	Simplex::MyEntityManager* entityManager = nullptr;
 
 	// map that stores the ids of every entity into a list associated with a particular lane
 	std::unordered_map<glm::uint, std::vector<Simplex::MyEntity*>> entityLaneMap;
+
+	std::unordered_map<glm::uint, std::vector<Simplex::String>> entityIDLaneMap;
 
 	Simplex::vector3 leftLaneLocation;
 
@@ -45,11 +49,17 @@ public:
 		return instance;
     }
 
+	const std::unordered_map<glm::uint, std::vector<Simplex::String>>& GetEntityIDMap() 
+	{
+		return entityIDLaneMap;
+	}
+	
+
 	/**
 	 * Call this function the moment you create an Entity utilizing the grid system.
 	 * Once an Entity is spawned at a particular location it must be added to a lane immediately
 	 */
-	glm::uint AddToLane(Simplex::MyEntity* entity);
+	glm::uint AddToLane(Simplex::String entityID);
 
 	/**
 	 * Call this function the moment you spawn a projectile.

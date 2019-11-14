@@ -7,11 +7,12 @@ LaneGrid::LaneGrid()
 	Init();
 }
 
-uint LaneGrid::AddToLane(Simplex::MyEntity* entity)
+uint LaneGrid::AddToLane(Simplex::String entityID)
 {
 	uint closestBox = 0;
 	uint trackedBox = 0;
 	float closestDistance = 100000000000.f;
+	auto entity = entityManager->GetEntity(entityManager->GetEntityIndex(entityID));
 	for (const auto t : transform)
 	{
 		vector3 scale;
@@ -20,7 +21,6 @@ uint LaneGrid::AddToLane(Simplex::MyEntity* entity)
 		vector3 skew;
 		glm::vec4 perspective;
 		glm::decompose(t, scale, rotation, translation, skew, perspective);
-
 		glm::vec3 temp = entity->GetPosition() - translation;
 		const float distSqr = dot(temp, temp);
 		if(distSqr < closestDistance)
@@ -33,6 +33,7 @@ uint LaneGrid::AddToLane(Simplex::MyEntity* entity)
 	entity->ClearDimensionSet();
 	entity->AddDimension(closestBox);
 	entityLaneMap[closestBox].push_back(entity);
+	entityIDLaneMap[closestBox].push_back(entityID);
 	return closestBox;
 }
 
@@ -50,6 +51,7 @@ LaneGrid::~LaneGrid()
 void LaneGrid::Init()
 {
 	meshManager = Simplex::MeshManager::GetInstance();
+	entityManager = Simplex::MyEntityManager::GetInstance();
 
 	leftLaneLocation = vector3(-10.f,2.75f,0.f);
 	middleLaneLocation = vector3(0.f,2.75f,0.f);
