@@ -18,10 +18,6 @@ class SteveManager
     LaneGrid* m_pLaneGrid = nullptr;
     MyEntityManager* m_pEntityManager = nullptr;
 
-    // This is a mapping of the unique id of a steve with its associated direction vector
-    // We need to use uniqueids rather than myentity* so that MyEntityManager::RemoveEntity(uniqueID) plays nice with us
-    std::unordered_map<String, vector3> m_aliveSteves;
-
 public:
     // Default Constructor and Destructor
     SteveManager();
@@ -44,7 +40,10 @@ public:
 private: // Methods
 
     // Steve-Spawning
-    void SpawnSteve(vector3 a_position);
+    void SpawnMob(vector3 a_position);
+
+    // Decides (By RNG) what mob to spawn, returns the obj filename and mass associated with that mob through parameters
+    void GetMobInfo(String* r_fileName, uint* mass);
 
     // Used inside Init() to initially populate the lane grid 
     void SpawnInitialSteves(uint a_initialSteveCount);
