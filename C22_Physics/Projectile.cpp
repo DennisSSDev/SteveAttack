@@ -11,7 +11,6 @@ void Projectile::Init()
 	//Getting instances of managers needed
 	entityManager = MyEntityManager::GetInstance();
 	camera = CameraManager::GetInstance();
-	laneGrid = LaneGrid::Instance();
 
 	SpawnProjectile();
 }
@@ -21,7 +20,7 @@ Projectile::~Projectile()
 	
 }
 
-Projectile* Projectile::SpawnProjectile()
+void Projectile::SpawnProjectile()
 {
 	//Get the position of the active camera
 	spawnPoint = camera->GetPosition(-1);
@@ -31,7 +30,6 @@ Projectile* Projectile::SpawnProjectile()
 	entityManager->AddEntity("Minecraft\\Cube.obj", "Block");
 	const uint index = entityManager->GetEntityIndex("Block");
 	entity = entityManager->GetEntity(index);
-	laneGrid->AddProjectile(entity);
 
 	//Get force from forward
 	vector3 force = camera->GetForward();
