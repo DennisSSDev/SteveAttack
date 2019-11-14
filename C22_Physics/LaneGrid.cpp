@@ -7,6 +7,11 @@ LaneGrid::LaneGrid()
 	Init();
 }
 
+const std::vector<Simplex::String>& LaneGrid::GetEntityIDMap(const uint& lane)
+{
+	return entityIDLaneMap[lane];
+}
+
 uint LaneGrid::AddToLane(Simplex::String entityID)
 {
 	uint closestBox = 0;
@@ -32,7 +37,6 @@ uint LaneGrid::AddToLane(Simplex::String entityID)
 	}
 	entity->ClearDimensionSet();
 	entity->AddDimension(closestBox);
-	entityLaneMap[closestBox].push_back(entity);
 	entityIDLaneMap[closestBox].push_back(entityID);
 	return closestBox;
 }
@@ -57,9 +61,9 @@ void LaneGrid::Init()
 	middleLaneLocation = vector3(0.f,2.75f,0.f);
 	rightLaneLocation = vector3(10.f,2.75f,0.f);
 
-	entityLaneMap[0] = std::vector<MyEntity*>();
-	entityLaneMap[1] = std::vector<MyEntity*>();
-	entityLaneMap[2] = std::vector<MyEntity*>();
+	entityIDLaneMap[0] = std::vector<String>();
+	entityIDLaneMap[1] = std::vector<String>();
+	entityIDLaneMap[2] = std::vector<String>();
 	
 	// left
 	transform[0] = (glm::translate(IDENTITY_M4, leftLaneLocation) * glm::scale(Simplex::vector3(8.f, 5.f, 25.f)));
@@ -73,42 +77,39 @@ void LaneGrid::Init()
 
 void LaneGrid::ExplodeProjectile()
 {
-	const auto& entities = entityLaneMap[projectileLane];
+	const auto& entityIDs = entityIDLaneMap[projectileLane];
 	const vector3 projLocation = projectile->GetPosition();
 
-	std::vector<MyEntity*> toDeleteEntities;
-	std::vector<MyEntity*> newEntityList;
+	std::vector<Simplex::String> toDeleteEntities;
+	std::vector<Simplex::String> newEntityList;
+
 	
-	for (const auto& entity : entities)
+	for (const auto& entityID : entityIDs)
 	{
+		const auto entity = entityManager->GetEntity(entityManager->GetEntityIndex(entityID));
 		const vector3 distV = entity->GetPosition() - projLocation;
 		const float distSq = dot(distV, distV);
 		if(distSq < 10.f) // todo: this is where you'd access the projectile's range of effect
 		{
-			toDeleteEntities.push_back(entity);
+			toDeleteEntities.push_back(entityID);
 		}
 		else
 		{
-			newEntityList.push_back(entity);
+			newEntityList.push_back(entityID);
 		}
 	}
 	// todo: request AI system to remove the garbo entities. It just so happens that the ball with also be in the list of garbage
+
+	for (const auto& entityID : toDeleteEntities)
+	{
+		entityManager->RemoveEntity(entityID);
+	}
 
 	projectileInLane = false;
 	projectile = nullptr;
 	
 	// swap with the list of entities that are still valid
-	entityLaneMap[projectileLane] = newEntityList;
-}
-
-void LaneGrid::AddEntryInEntityMap(const uint lane, Simplex::MyEntity* entity)
-{
-	if(lane > 2)
-	{
-		// cause the program to crash if the lane is larger than the allowed range
-		assert(false);
-	}
-	entityLaneMap[lane].push_back(entity);
+	entityIDLaneMap[projectileLane] = newEntityList;
 }
 
 void LaneGrid::Update()
@@ -121,7 +122,7 @@ void LaneGrid::Update()
 	{
 		projectileInLane = true;
 		// add it to a dimension
-		projectileLane = AddToLane(projectile);
+		projectileLane = AddToLane(projectile->GetUniqueID());
 		return;
 	}
 	// check if close to ground / hit the ground
