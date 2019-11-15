@@ -11,8 +11,6 @@ void Projectile::Init()
 	//Getting instances of managers needed
 	entityManager = MyEntityManager::GetInstance();
 	camera = CameraManager::GetInstance();
-
-	SpawnProjectile();
 }
 
 Projectile::~Projectile()
@@ -44,4 +42,10 @@ void Projectile::SpawnProjectile()
 Simplex::MyEntity* Projectile::GetProjectileEntity() const
 {
 	return entity;
+}
+
+void Projectile::InvalidateProjectile()
+{
+	SafeDelete(entity);
+	entity = nullptr;
 }

@@ -9,6 +9,7 @@ public:
 	~Projectile();
 	void SpawnProjectile();
 	Simplex::MyEntity* GetProjectileEntity() const;
+	void InvalidateProjectile();
 private:
 	Simplex::MyEntity* entity;
 	Simplex::vector3 spawnPoint;

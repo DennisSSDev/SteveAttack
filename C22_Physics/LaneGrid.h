@@ -4,13 +4,16 @@
 #include "MyEntity.h"
 #include "MyEntityManager.h"
 #include "unordered_map"
+#include "vector"
+
+class Projectile;
 
 class LaneGrid
 {
 private:
 
 	// visual scales of the lanes
-	Simplex::matrix4 transform[4];
+	Simplex::matrix4 transform[3];
 
 	Simplex::matrix4 floor;
 
@@ -18,6 +21,9 @@ private:
 	Simplex::MyEntity* projectile = nullptr;
 	bool projectileInLane = false;
 	glm::uint projectileLane = 0;
+
+	bool isTimerSet = false;
+	float timerValue = 0.f;
 		
 	// singleton to the mesh manager
 	Simplex::MeshManager* meshManager = nullptr;
@@ -31,6 +37,12 @@ private:
 
 	Simplex::vector3 rightLaneLocation;
 
+	std::vector<Simplex::vector3> laneLocations;
+
+	Projectile* projectileInstance = nullptr;
+
+	static LaneGrid* instance;
+
 private:
 	void Init();
 	void ExplodeProjectile();
@@ -38,10 +50,15 @@ private:
 public:
 	LaneGrid();
 	~LaneGrid();
-
+	
+	static void ReleaseInstance();
+	
 	static LaneGrid* Instance()
 	{
-		static LaneGrid* instance = new LaneGrid();
+		if(!instance)
+		{
+			instance = new LaneGrid();
+		}
 		return instance;
     }
 
@@ -61,10 +78,12 @@ public:
 	 */
 	void AddProjectile(Simplex::MyEntity* projectile);
 
+	void SetProjectileReference(Projectile* instance);
+
 	/**
 	 * Lane Grid custom update to detect how far away is the projectile from the grid
 	 * if the Projectile is not inside the grid, it will try to check how high is the projectile.
-	 * if it's not within the necessary hight -> ignore it.
+	 * if it's not within the necessary height -> ignore it.
 	 * if it is, detect which lane it's closest to and add it to the appropriate dimension
 	 * if the  
 	 */

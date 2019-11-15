@@ -22,10 +22,9 @@ void Application::ProcessMousePressed(sf::Event a_event)
 	default: break;
 	case sf::Mouse::Button::Left:
 		gui.m_bMousePressed[0] = true;
-		//Release projectile
-		if (projectile == nullptr)
+		if (!projectile->GetProjectileEntity())
 		{
-			projectile = new Projectile();
+			projectile->SpawnProjectile();
 			laneGrid->AddProjectile(projectile->GetProjectileEntity());
 		}
 		break;
@@ -89,9 +88,9 @@ void Application::ProcessKeyPressed(sf::Event a_event)
 		break;
 	//This is still here just in case but now you can click the left mouse button to shoot the projectile
 	case sf::Keyboard::P:
-		if(projectile == nullptr)
+		if (!projectile->GetProjectileEntity())
 		{
-			projectile = new Projectile();
+			projectile->SpawnProjectile();
 			laneGrid->AddProjectile(projectile->GetProjectileEntity());
 		}
 		break;

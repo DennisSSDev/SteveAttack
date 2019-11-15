@@ -1,6 +1,11 @@
 ﻿#include "LaneGrid.h"
+#include "Projectile.h"
 #include <unordered_set>
+#include "SteveManager.h"
+
 using namespace Simplex;
+
+LaneGrid* LaneGrid::instance = nullptr;
 
 LaneGrid::LaneGrid()
 {
@@ -18,15 +23,9 @@ uint LaneGrid::AddToLane(Simplex::String entityID)
 	uint trackedBox = 0;
 	float closestDistance = 100000000000.f;
 	auto entity = entityManager->GetEntity(entityManager->GetEntityIndex(entityID));
-	for (const auto t : transform)
+	for (const auto t : laneLocations)
 	{
-		vector3 scale;
-		quaternion rotation;
-		vector3 translation;
-		vector3 skew;
-		glm::vec4 perspective;
-		glm::decompose(t, scale, rotation, translation, skew, perspective);
-		glm::vec3 temp = entity->GetPosition() - translation;
+		glm::vec3 temp = entity->GetPosition() - t;
 		const float distSqr = dot(temp, temp);
 		if(distSqr < closestDistance)
 		{
@@ -47,9 +46,13 @@ void LaneGrid::AddProjectile(Simplex::MyEntity* projectile)
 	this->projectile = projectile;
 }
 
+void LaneGrid::SetProjectileReference(Projectile* instance)
+{
+	projectileInstance = instance;
+}
+
 LaneGrid::~LaneGrid()
 {
-	
 }
 
 void LaneGrid::Init()
@@ -73,6 +76,10 @@ void LaneGrid::Init()
 	transform[2] = (glm::translate(IDENTITY_M4, rightLaneLocation) * glm::scale(Simplex::vector3(8.f, 5.f, 25.f)));
 
 	floor = (glm::translate(IDENTITY_M4, vector3(0.f,-.5f,0.f)) * glm::scale(Simplex::vector3(27.f, 1.f, 26.f)));
+
+	laneLocations.push_back(leftLaneLocation);
+	laneLocations.push_back(middleLaneLocation);
+	laneLocations.push_back(rightLaneLocation);
 }
 
 void LaneGrid::ExplodeProjectile()
@@ -98,18 +105,31 @@ void LaneGrid::ExplodeProjectile()
 			newEntityList.push_back(entityID);
 		}
 	}
-	// todo: request AI system to remove the garbo entities. It just so happens that the ball with also be in the list of garbage
-
+	
 	for (const auto& entityID : toDeleteEntities)
 	{
 		entityManager->RemoveEntity(entityID);
 	}
 
 	projectileInLane = false;
+
+	projectileInstance->InvalidateProjectile();
+	
 	projectile = nullptr;
+
+	
 	
 	// swap with the list of entities that are still valid
 	entityIDLaneMap[projectileLane] = newEntityList;
+}
+
+void LaneGrid::ReleaseInstance()
+{
+	if(instance != nullptr)
+	{
+		delete instance;
+		instance = nullptr;
+	}
 }
 
 void LaneGrid::Update()
@@ -129,7 +149,18 @@ void LaneGrid::Update()
 	// if it hit the ground -> explode and invalidate the projectile
 	if(projLocation.y < 0.01f)
 	{
-		ExplodeProjectile();
+		if(!isTimerSet)
+		{
+			isTimerSet = true;
+			timerValue = 0.f;
+			return;
+		}
+		timerValue += 1/15.f;
+		if(timerValue > 10.f)
+		{
+			ExplodeProjectile();
+			isTimerSet = false;
+		}
 	}
 }
 
