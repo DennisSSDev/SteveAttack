@@ -389,9 +389,6 @@ void Application::CameraRotation(float a_fSpeed)
 		fAngleX += fDeltaMouse * a_fSpeed;
 		totalFAngleX += fAngleX;
 	}
-	
-	std::cout << "totalFAngleY: " << totalFAngleY << std::endl;
-	std::cout << "totalFAngleX: " << totalFAngleX << std::endl;
 
 	static float MAX_Y_DISTANCE = 1.625f;
 	static float MAX_X_DISTANCE = 1.0f;
