@@ -37,7 +37,7 @@ void Projectile::SpawnProjectile()
 	matrix4 m4Position = glm::translate(spawnPoint);
 	entityManager->SetModelMatrix(m4Position);
 	entityManager->UsePhysicsSolver();
-	entityManager->ApplyForce(force * 2.0f);
+	entityManager->ApplyForce(force * 2.75f);
 }
 
 const float& Projectile::GetExplosionRadius() const

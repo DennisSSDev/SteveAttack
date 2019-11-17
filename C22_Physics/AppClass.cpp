@@ -14,19 +14,11 @@ void Application::InitVariables(void)
 	m_pEntityMngr->AddEntity("Minecraft\\Steve.obj", "Steve");
 	m_pEntityMngr->UsePhysicsSolver();
 
-	/*
-	for (int i = 0; i < 100; i++)
-	{
-		m_pEntityMngr->AddEntity("Minecraft\\Cube.obj", "Cube_" + std::to_string(i));
-		vector3 v3Position = vector3(glm::sphericalRand(12.0f));
-		v3Position.y = 0.0f;
-		matrix4 m4Position = glm::translate(v3Position);
-		m_pEntityMngr->SetModelMatrix(m4Position * glm::scale(vector3(2.0f)));
-		m_pEntityMngr->UsePhysicsSolver();
-		//m_pEntityMngr->SetMass(2);
-
-		//m_pEntityMngr->SetMass(i+1);
-	}*/
+	m_pEntityMngr->AddEntity("Minecraft\\Cube.obj", "Cube_0");
+	vector3 v3Position = vector3(100, 0.f, 100.f);
+	v3Position.y = 0.0f;
+	matrix4 m4Position = glm::translate(v3Position);
+	m_pEntityMngr->SetModelMatrix(m4Position * glm::scale(vector3(2.0f)));
 
 	laneGrid = LaneGrid::Instance();
     m_pSteveMngr = SteveManager::GetInstance();
@@ -44,7 +36,7 @@ void Application::Update(void)
 
     // Update the AI Manager
     // TODO: Find out how to get deltatime
-    m_pSteveMngr->Update(1/60.f);
+    m_pSteveMngr->Update(1/600.f);
 	
     //Update Entity Manager
 	m_pEntityMngr->Update();
@@ -52,7 +44,7 @@ void Application::Update(void)
 	//Set the model matrix for the main object
 	//m_pEntityMngr->SetModelMatrix(m_m4Steve, "Steve");
 
-	laneGrid->Update(0.016);
+	laneGrid->Update(0.016f);
 
 	//Add objects to render list
 	m_pEntityMngr->AddEntityToRenderList(-1, true);

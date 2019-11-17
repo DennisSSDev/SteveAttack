@@ -66,8 +66,6 @@ private:
     SteveManager* m_pSteveMngr;
 	Projectile* projectile;
 
-	float timeSinceStart = 0.f;
-
 public:
 #pragma region Constructor / Run / Destructor
 	/*
