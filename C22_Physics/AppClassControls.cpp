@@ -368,28 +368,43 @@ void Application::CameraRotation(float a_fSpeed)
 	{
 		fDeltaMouse = static_cast<float>(CenterX - MouseX);
 		fAngleY += fDeltaMouse * a_fSpeed;
+		totalFAngleY += fAngleY;
 	}
 	else if (MouseX > CenterX)
 	{
 		fDeltaMouse = static_cast<float>(MouseX - CenterX);
 		fAngleY -= fDeltaMouse * a_fSpeed;
+		totalFAngleY += fAngleY;
 	}
 
 	if (MouseY < CenterY)
 	{
 		fDeltaMouse = static_cast<float>(CenterY - MouseY);
 		fAngleX -= fDeltaMouse * a_fSpeed;
+		totalFAngleX += fAngleX;
 	}
 	else if (MouseY > CenterY)
 	{
 		fDeltaMouse = static_cast<float>(MouseY - CenterY);
 		fAngleX += fDeltaMouse * a_fSpeed;
+		totalFAngleX += fAngleX;
 	}
+	
+	std::cout << "totalFAngleY: " << totalFAngleY << std::endl;
+	std::cout << "totalFAngleX: " << totalFAngleX << std::endl;
 
+	static float MAX_Y_DISTANCE = 1.625f;
+	static float MAX_X_DISTANCE = 1.0f;
 
-	//Change the Yaw and the Pitch of the camera
-	m_pCameraMngr->ChangeYaw(fAngleY * 0.25f);
-	m_pCameraMngr->ChangePitch(-fAngleX * 0.25f);
+	//Change the Yaw and the Pitch of the camera only if it's within the constraints listed above
+	if (totalFAngleY >= -MAX_Y_DISTANCE && totalFAngleY <= MAX_Y_DISTANCE)
+	{
+		m_pCameraMngr->ChangeYaw(fAngleY * 0.25f);
+	}
+	if (totalFAngleX >= -MAX_X_DISTANCE && totalFAngleX <= MAX_X_DISTANCE)
+	{
+		m_pCameraMngr->ChangePitch(-fAngleX * 0.25f);
+	}
 	SetCursorPos(CenterX, CenterY);//Position the mouse in the center
 }
 //Keyboard

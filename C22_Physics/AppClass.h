@@ -65,6 +65,7 @@ private:
 
 	bool showDebug = false; //displays debug box on left
 
+	float totalFAngleY, totalFAngleX; //Total change in angle for mouse rotation
 
 	LaneGrid* laneGrid;
     SteveManager* m_pSteveMngr;
