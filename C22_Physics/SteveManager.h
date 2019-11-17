@@ -43,7 +43,7 @@ private: // Methods
     void SpawnMob(vector3 a_position);
 
     // Decides (By RNG) what mob to spawn, returns the obj filename and mass associated with that mob through parameters
-    void GetMobInfo(String* r_fileName, uint* mass);
+    void GetMobInfo(_Out_ String* r_fileName, _Out_ uint* mass);
 
     // Used inside Init() to initially populate the lane grid 
     void SpawnInitialSteves(uint a_initialSteveCount);

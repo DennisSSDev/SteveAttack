@@ -3,8 +3,9 @@ Programmer: Ruben Young (ray6190@rit.edu)
 Date: 2019/11
 ----------------------------------------------*/
 #include "SteveManager.h"
-#include <stdlib.h>
-#include <time.h>
+#include <stdlib.h> // rand
+#include "Projectile.h" // projectile
+#include <time.h>   // time(NULL)
 
 namespace Simplex {
 
@@ -26,11 +27,19 @@ SteveManager::~SteveManager()
 
 void SteveManager::Update(float dt)
 {
-
-    /*for (const auto entity : m_pLaneGrid->GetEntityIDMap())
+    const MyEntity* projectile = m_pLaneGrid->GetProjectileReference()->GetProjectileEntity();
+    const vector3 force(0.f, 0.f, 50.f * dt);
+    for (int i = 0; i < 3; ++i) // for every lane
     {
-        m_pEntityManager->ApplyForce(vector3(0.f,0.f,1.f) * dt, entity.second);
-    }*/
+        for (const auto entityID : m_pLaneGrid->GetEntityIDMap(i)) // for every entity in lane i
+        {
+            const MyEntity* entity = m_pEntityManager->GetEntity(m_pEntityManager->GetEntityIndex(entityID));
+            
+            if (entity != projectile)
+            m_pEntityManager->ApplyForce(force, entityID);
+        }
+    }
+    
 }
 
 void SteveManager::Init(uint a_initialSteveCount)
@@ -40,27 +49,22 @@ void SteveManager::Init(uint a_initialSteveCount)
 
 void SteveManager::SpawnMob(vector3 a_position)
 {
-    // TODO: Generate variance in direction vectors 
-    // for now, the vector <0,0,1> will suffice
-    vector3 v3Direction(0.0f, 0.0f, 1.0f);
-
     // Generate uniqueID to pass to the entityManager
     std::ostringstream oss;
-    oss << "Steve" << m_nTotalSteves++;
+    oss << "Mob" << m_nTotalSteves++;
     String uniqueID = oss.str();
 
     // Load the entity in the entity manager
     String tFileName;
     uint tMass;
     GetMobInfo(&tFileName, &tMass);
+
+    // Initialize Entity with initial values
     m_pEntityManager->AddEntity(tFileName, uniqueID);
+    m_pEntityManager->SetPosition(a_position, uniqueID);
+    m_pEntityManager->SetMass(tMass, uniqueID);
     m_pEntityManager->UsePhysicsSolver(); // Resolve any upstanding collisions with this steve
-
-    // Retrieve entity* from manager and set the world space position and mass
-    MyEntity* pEntity = m_pEntityManager->GetEntity(m_pEntityManager->GetEntityIndex(uniqueID));
-    pEntity->GetSolver()->SetPosition(a_position);
-    pEntity->SetMass(tMass);
-
+    
     // Give info to the lane grid
     m_pLaneGrid->AddToLane(uniqueID);
 
@@ -76,12 +80,12 @@ void SteveManager::GetMobInfo(_Out_ String* r_fileName, _Out_ uint* r_mass)
     if (randomNumber < 50)
     {
         *r_fileName = "Minecraft\\Steve.obj";
-        *r_mass = 10;
+        *r_mass = 25u;
     } 
     else
     {
         *r_fileName = "Minecraft\\Zombie.obj";
-        *r_mass = 20;
+        *r_mass = 50u;
     }
         
     return;
@@ -89,17 +93,12 @@ void SteveManager::GetMobInfo(_Out_ String* r_fileName, _Out_ uint* r_mass)
 
 void SteveManager::SpawnInitialSteves(uint a_initialSteveCount)
 {
-    //for (uint i = 0U; i < a_initialSteveCount; ++i)
-    //{
-    //    // TODO: Distribute steves across floor (glm::gaussRand?)
-    //
-    //    // SpawnSteve( distributed vector );
-    //}
+    for (uint i = 0U; i < a_initialSteveCount; ++i)
+    {
+        float xValue = rand() % 20 - 10; // Random float [-10,10]
 
-    // For now, spawn three steves, one in each lane
-    SpawnMob(vector3(-10, -.5f, -3.f));
-    SpawnMob(vector3( 0, -.5f, -3.f));
-    SpawnMob(vector3( 10, -.5f, -3.f));
+        SpawnMob(vector3(xValue, -.5f, -3.f));
+    }
 }
 
 #pragma region Singleton-specific method definitions + implementation

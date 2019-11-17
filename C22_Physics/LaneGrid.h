@@ -79,6 +79,7 @@ public:
 	void AddProjectile(Simplex::MyEntity* projectile);
 
 	void SetProjectileReference(Projectile* instance);
+    Projectile* GetProjectileReference() { return this->projectileInstance; }
 
 	/**
 	 * Lane Grid custom update to detect how far away is the projectile from the grid

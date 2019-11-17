@@ -32,7 +32,7 @@ void Application::InitVariables(void)
     m_pSteveMngr = SteveManager::GetInstance();
 	projectile = new Projectile();
 	laneGrid->SetProjectileReference(projectile);
-    m_pSteveMngr->Init(3U);
+    m_pSteveMngr->Init(15U);
 }
 void Application::Update(void)
 {
@@ -42,17 +42,17 @@ void Application::Update(void)
 	//Is the first person camera active?
 	CameraRotation();
 
-	//Update Entity Manager
+    // Update the AI Manager
+    // TODO: Find out how to get deltatime
+    m_pSteveMngr->Update(1/60.f);
+	
+    //Update Entity Manager
 	m_pEntityMngr->Update();
 
 	//Set the model matrix for the main object
 	//m_pEntityMngr->SetModelMatrix(m_m4Steve, "Steve");
 
 	laneGrid->Update();
-
-    // Update the AI Manager
-    // TODO: Find out how to get deltatime
-    m_pSteveMngr->Update(1/120.f);
 
 	//Add objects to render list
 	m_pEntityMngr->AddEntityToRenderList(-1, true);
