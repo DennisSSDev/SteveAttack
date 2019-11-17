@@ -35,7 +35,7 @@ void Application::InitVariables(void)
     m_pSteveMngr->Init(15U);
 }
 void Application::Update(void)
-{
+{	
 	//Update the system so it knows how much time has passed since the last call
 	m_pSystem->Update();
 
@@ -52,7 +52,7 @@ void Application::Update(void)
 	//Set the model matrix for the main object
 	//m_pEntityMngr->SetModelMatrix(m_m4Steve, "Steve");
 
-	laneGrid->Update();
+	laneGrid->Update(0.016);
 
 	//Add objects to render list
 	m_pEntityMngr->AddEntityToRenderList(-1, true);
@@ -74,7 +74,7 @@ void Application::Display(void)
 
 	//clear the render list
 	m_pMeshMngr->ClearRenderList();
-
+	
 	//draw gui,
 	DrawGUI();
 

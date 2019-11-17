@@ -42,9 +42,6 @@ private:
 	float m_fMovementSpeed = 0.1f; //how fast the camera will move
 
 	vector3 m_v3Mouse = vector3(); //position of the mouse in the window
-	bool m_bFPC = false;// First Person Camera flag
-	bool m_bArcBall = false;// ArcBall flag
-	quaternion m_qArcBall; //ArcBall quaternion
 
 	vector4 m_v4ClearColor; //Color of the scene
 	bool m_bRunning = false; //Is App running?
@@ -65,11 +62,11 @@ private:
 
 	bool showDebug = false; //displays debug box on left
 
-	float totalFAngleY, totalFAngleX; //Total change in angle for mouse rotation
-
 	LaneGrid* laneGrid;
     SteveManager* m_pSteveMngr;
 	Projectile* projectile;
+
+	float timeSinceStart = 0.f;
 
 public:
 #pragma region Constructor / Run / Destructor
@@ -191,19 +188,6 @@ private:
 	*/
 	void ProcessKeyboard(void);
 	/*
-	USAGE: Manage constant keyboard state
-	ARGUMENTS: ---
-	OUTPUT: ---
-	*/
-	void ProcessJoystick(void);
-	/*
-	USAGE: Process the arcball of the scene, rotating an object in the center of it	a_fSensitivity is
-	a factor of change
-	ARGUMENTS: float a_fSensitivity = 0.1f -> indicates how fast the arcball is going to change
-	OUTPUT: ---
-	*/
-	void ArcBall(float a_fSensitivity = 0.1f);
-	/*
 	USAGE: Manages the rotation of the camera a_fSpeed is a factor of change
 	ARGUMENTS: float a_fSpeed = 0.005f
 	OUTPUT: ---
@@ -254,30 +238,6 @@ private:
 	OUTPUT: ---
 	*/
 	void ProcessMouseScroll(sf::Event a_event);
-	/*
-	USAGE: Manage the response of joystick just connected
-	ARGUMENTS: ---
-	OUTPUT: ---
-	*/
-	void ProcessJoystickConnected(uint nController = 0);
-	/*
-	USAGE: Manage the response of joystick key presses
-	ARGUMENTS: ---
-	OUTPUT: ---
-	*/
-	void ProcessJoystickPressed(sf::Event a_event);
-	/*
-	USAGE: Manage the response of joystick key release
-	ARGUMENTS: ---
-	OUTPUT: ---
-	*/
-	void ProcessJoystickReleased(sf::Event a_event);
-	/*
-	USAGE: Manage the response of joystick axis movement
-	ARGUMENTS: ---
-	OUTPUT: ---
-	*/
-	void ProcessJoystickMoved(sf::Event a_event);
 #pragma endregion
 
 #pragma region GUI

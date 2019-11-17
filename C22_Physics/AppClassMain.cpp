@@ -51,13 +51,6 @@ void Application::InitControllers(void)
 
 	m_uActCont = 0;
 	m_uControllerCount = 0;
-	for (uint i = 0; i < 8; ++i)
-	{
-		if (sf::Joystick::isConnected(i))
-		{
-			ProcessJoystickConnected(i);
-		}
-	}
 	bInit = true;
 }
 void Application::ReleaseControllers(void)
@@ -131,18 +124,6 @@ void Application::Run(void)
 				if (appEvent.text.unicode > 0 && appEvent.text.unicode < 0x10000)
 					ImGui::GetIO().AddInputCharacter(appEvent.text.unicode);
 				break;
-			case sf::Event::JoystickButtonPressed:
-				ProcessJoystickPressed(appEvent);
-				break;
-			case sf::Event::JoystickButtonReleased:
-				ProcessJoystickReleased(appEvent);
-				break;
-			case sf::Event::JoystickMoved:
-				ProcessJoystickMoved(appEvent);
-				break;
-			case sf::Event::JoystickConnected:
-				ProcessJoystickConnected(appEvent.joystickConnect.joystickId);
-				break;
 			case sf::Event::JoystickDisconnected:
 				InitControllers();
 				break;
@@ -155,7 +136,6 @@ void Application::Run(void)
 			}
 		}
 		ProcessKeyboard();//Continuous events
-		ProcessJoystick();//Continuous events
 		Update();
 		Display();
 	}

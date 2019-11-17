@@ -4,10 +4,13 @@
 
 class Projectile
 {
+	const float explosionRadius = 10.f;
+	
 public:
 	Projectile();
 	~Projectile();
 	void SpawnProjectile();
+	const float& GetExplosionRadius() const;
 	Simplex::MyEntity* GetProjectileEntity() const;
 	void InvalidateProjectile();
 private:

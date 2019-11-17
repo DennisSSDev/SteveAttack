@@ -96,7 +96,8 @@ void LaneGrid::ExplodeProjectile()
 		const auto entity = entityManager->GetEntity(entityManager->GetEntityIndex(entityID));
 		const vector3 distV = entity->GetPosition() - projLocation;
 		const float distSq = dot(distV, distV);
-		if(distSq < 10.f) // todo: this is where you'd access the projectile's range of effect
+		const float& expRadius = projectileInstance->GetExplosionRadius();
+		if(distSq < expRadius * expRadius)
 		{
 			toDeleteEntities.push_back(entityID);
 		}
@@ -117,8 +118,6 @@ void LaneGrid::ExplodeProjectile()
 	
 	projectile = nullptr;
 
-	
-	
 	// swap with the list of entities that are still valid
 	entityIDLaneMap[projectileLane] = newEntityList;
 }
@@ -132,7 +131,7 @@ void LaneGrid::ReleaseInstance()
 	}
 }
 
-void LaneGrid::Update()
+void LaneGrid::Update(float delta)
 {
 	if(!projectile) return;
 	
@@ -155,8 +154,8 @@ void LaneGrid::Update()
 			timerValue = 0.f;
 			return;
 		}
-		timerValue += 1/15.f;
-		if(timerValue > 10.f)
+		timerValue += 15.f*delta;
+		if(timerValue > 5.f)
 		{
 			ExplodeProjectile();
 			isTimerSet = false;

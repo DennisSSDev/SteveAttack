@@ -28,6 +28,7 @@ void Projectile::SpawnProjectile()
 	entityManager->AddEntity("Minecraft\\Cube.obj", "Block");
 	const uint index = entityManager->GetEntityIndex("Block");
 	entity = entityManager->GetEntity(index);
+	entity->GetRigidBody()->SetVisibleOBB(false);
 
 	//Get force from forward
 	vector3 force = camera->GetForward();
@@ -37,6 +38,11 @@ void Projectile::SpawnProjectile()
 	entityManager->SetModelMatrix(m4Position);
 	entityManager->UsePhysicsSolver();
 	entityManager->ApplyForce(force * 2.0f);
+}
+
+const float& Projectile::GetExplosionRadius() const
+{
+	return explosionRadius;
 }
 
 Simplex::MyEntity* Projectile::GetProjectileEntity() const

@@ -88,7 +88,7 @@ public:
 	 * if it is, detect which lane it's closest to and add it to the appropriate dimension
 	 * if the  
 	 */
-	void Update();
+	void Update(float delta);
 	
 	void Display();
 };

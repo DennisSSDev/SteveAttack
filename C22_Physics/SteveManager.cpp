@@ -63,6 +63,7 @@ void SteveManager::SpawnMob(vector3 a_position)
     m_pEntityManager->AddEntity(tFileName, uniqueID);
     m_pEntityManager->SetPosition(a_position, uniqueID);
     m_pEntityManager->SetMass(tMass, uniqueID);
+	m_pEntityManager->GetRigidBody(uniqueID)->SetVisibleOBB(false);
     m_pEntityManager->UsePhysicsSolver(); // Resolve any upstanding collisions with this steve
     
     // Give info to the lane grid
