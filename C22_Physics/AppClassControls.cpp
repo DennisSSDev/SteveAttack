@@ -64,7 +64,8 @@ void Application::ProcessMouseScroll(sf::Event a_event)
 
 	if (fMultiplier)
 		fSpeed *= 2.0f;
-	m_pCameraMngr->MoveForward(-fSpeed);
+	//Removed so you cannot move the camera at all
+	//m_pCameraMngr->MoveForward(-fSpeed);
 }
 //Keyboard
 void Application::ProcessKeyPressed(sf::Event a_event)

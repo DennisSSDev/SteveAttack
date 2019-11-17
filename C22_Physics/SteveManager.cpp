@@ -28,7 +28,7 @@ SteveManager::~SteveManager()
 void SteveManager::Update(float dt)
 {
     const MyEntity* projectile = m_pLaneGrid->GetProjectileReference()->GetProjectileEntity();
-    const vector3 force(0.f, 0.f, 50.f * dt);
+    const vector3 force(0.f, 0.f, 5.0f * dt);
     for (int i = 0; i < 3; ++i) // for every lane
     {
         for (const auto entityID : m_pLaneGrid->GetEntityIDMap(i)) // for every entity in lane i
@@ -56,7 +56,7 @@ void SteveManager::SpawnMob(vector3 a_position)
 
     // Load the entity in the entity manager
     String tFileName;
-    uint tMass;
+    float tMass;
     GetMobInfo(&tFileName, &tMass);
 
     // Initialize Entity with initial values
@@ -65,14 +65,14 @@ void SteveManager::SpawnMob(vector3 a_position)
     m_pEntityManager->SetMass(tMass, uniqueID);
 	m_pEntityManager->GetRigidBody(uniqueID)->SetVisibleOBB(false);
     m_pEntityManager->UsePhysicsSolver(); // Resolve any upstanding collisions with this steve
-    
+
     // Give info to the lane grid
     m_pLaneGrid->AddToLane(uniqueID);
 
     ++m_steveCount;
 }
 
-void SteveManager::GetMobInfo(_Out_ String* r_fileName, _Out_ uint* r_mass)
+void SteveManager::GetMobInfo(_Out_ String* r_fileName, _Out_ float* r_mass)
 {
     // Random integer E [1,100]
     int randomNumber = rand() % 100 + 1;
@@ -81,12 +81,12 @@ void SteveManager::GetMobInfo(_Out_ String* r_fileName, _Out_ uint* r_mass)
     if (randomNumber < 50)
     {
         *r_fileName = "Minecraft\\Steve.obj";
-        *r_mass = 25u;
+        *r_mass = 1.f;
     } 
     else
     {
         *r_fileName = "Minecraft\\Zombie.obj";
-        *r_mass = 50u;
+        *r_mass = 2.f;
     }
         
     return;
