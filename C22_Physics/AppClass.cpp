@@ -41,10 +41,14 @@ void Application::InitVariables(void)
     m_pSteveMngr = SteveManager::GetInstance();
 	projectile = new Projectile();
 	laneGrid->SetProjectileReference(projectile);
+	ui = UI::Instance();
+	uiInfo = ui->GetGuiInfo();
     m_pSteveMngr->Init(15U);
 }
 void Application::Update(void)
 {	
+	float delta = m_pSystem->GetDeltaTime(18);
+
 	//Update the system so it knows how much time has passed since the last call
 	m_pSystem->Update();
 
@@ -52,16 +56,15 @@ void Application::Update(void)
 	CameraRotation();
 
     // Update the AI Manager
-    // TODO: Find out how to get deltatime
-    m_pSteveMngr->Update(1/600.f);
-	
+    m_pSteveMngr->Update(delta);
+
     //Update Entity Manager
 	m_pEntityMngr->Update();
 
 	//Set the model matrix for the main object
 	//m_pEntityMngr->SetModelMatrix(m_m4Steve, "Steve");
 
-	laneGrid->Update(0.016f);
+	laneGrid->Update(delta);
 
 	//Add objects to render list
 	m_pEntityMngr->AddEntityToRenderList(-1, true);
@@ -97,6 +100,7 @@ void Application::Release(void)
 	LaneGrid::ReleaseInstance();
 	SafeDelete(projectile);
     SteveManager::ReleaseInstance();
+	UI::ReleaseInstance();
 	//release GUI
 	ShutdownGUI();
 }

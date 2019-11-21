@@ -34,6 +34,13 @@ namespace Simplex {
 		static UI* Instance();
 
 		/*
+		USAGE: Remove memory allocated for the instance
+		ARGUMENTS: ---
+		OUTPUT: ---
+		*/
+		static void ReleaseInstance();
+
+		/*
 		USAGE: Adds points to the score
 		ARGUMENTS: s -> The number of points to add
 		OUTPUT: ---
@@ -46,6 +53,13 @@ namespace Simplex {
 		OUTPUT: ---
 		*/
 		void KillEnemy();
+
+		/*
+		USAGE: Adds points to the enemy death count
+		ARGUMENTS: count -> the mount of enemies to kill
+		OUTPUT: ---
+		*/
+		void KillEnemies(int count);
 
 		/*
 		USAGE: Kills the player, sets isAlive to false

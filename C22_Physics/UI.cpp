@@ -13,6 +13,12 @@ UI* UI::Instance()
 	return instance;
 }
 
+void Simplex::UI::ReleaseInstance()
+{
+	delete instance;
+	instance = nullptr;
+}
+
 UI::UI()
 {
 	killCount = 0;
@@ -26,9 +32,6 @@ Simplex::UI::~UI()
 {
 	delete[] uiInfo;
 	uiInfo = nullptr;
-
-	delete instance;
-	instance = nullptr;
 }
 
 void UI::AddToScore(int s)
@@ -39,6 +42,11 @@ void UI::AddToScore(int s)
 void UI::KillEnemy()
 {
 	killCount++;
+}
+
+void Simplex::UI::KillEnemies(int count)
+{
+	killCount += count;
 }
 
 void UI::PlayerDied()
@@ -53,7 +61,7 @@ bool UI::IsAlive()
 
 std::string* UI::GetGuiInfo()
 {
-	uiInfo[0] = "Score: " + std::to_string(score);
+	uiInfo[0] = "Projectiles Exploded: " + std::to_string(score);
 	uiInfo[1] = "Kill Count: " + std::to_string(killCount);
 	return uiInfo;
 }

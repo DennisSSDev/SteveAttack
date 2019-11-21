@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include "Simplex/Mesh/Model.h"
+#include "UI.h"
 #include "MyEntity.h"
 #include "MyEntityManager.h"
 #include "unordered_map"
@@ -17,6 +18,8 @@ private:
 
 	Simplex::matrix4 floor;
 
+	const float distanceToEnd = 18.f;
+
 	//reference to an active projectile in the level
 	Simplex::MyEntity* projectile = nullptr;
 	bool projectileInLane = false;
@@ -28,6 +31,7 @@ private:
 	// singleton to the mesh manager
 	Simplex::MeshManager* meshManager = nullptr;
 	Simplex::MyEntityManager* entityManager = nullptr;
+	
 
 	std::unordered_map<glm::uint, std::vector<Simplex::String>> entityIDLaneMap;
 
@@ -40,6 +44,7 @@ private:
 	std::vector<Simplex::vector3> laneLocations;
 
 	Projectile* projectileInstance = nullptr;
+	Simplex::UI* uiInstance = nullptr;
 
 	static LaneGrid* instance;
 

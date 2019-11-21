@@ -5,12 +5,15 @@ ImGuiObject Application::gui;
 void Application::DrawGUI(void)
 {
 #pragma region GUI Information
-	UI* ui = UI::Instance();
-	String* uiInfo = ui->GetGuiInfo();
+	uiInfo = ui->GetGuiInfo();
 
 	m_pMeshMngr->Print(uiInfo[0], C_YELLOW);
-	m_pMeshMngr->Print("                                                 ");
+	m_pMeshMngr->Print("\n");
 	m_pMeshMngr->PrintLine(uiInfo[1], C_RED);
+	if (!ui->IsAlive()) // set this to false when one of the steves reaches the end of the zone
+	{
+		m_pMeshMngr->Print("\n\n\n\n\n\n\n                              YOU'VE LOST");
+	}
 #pragma endregion
 
 	//Calculate the window size to know how to draw
@@ -22,7 +25,7 @@ void Application::DrawGUI(void)
 	//Main Window
 	if (m_bGUI_Main && showDebug)
 	{
-		ImGui::SetNextWindowPos(ImVec2(1, 1), ImGuiSetCond_FirstUseEver);
+		ImGui::SetNextWindowPos(ImVec2(800, 1) /*, ImGuiSetCond_FirstUseEver*/);
 		ImGui::SetNextWindowSize(ImVec2(340, 60), ImGuiSetCond_FirstUseEver);
 		String sAbout = m_pSystem->GetAppName() + " - About";
 		ImGui::Begin(sAbout.c_str(), (bool*)0, window_flags);
