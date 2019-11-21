@@ -52,7 +52,8 @@ private:
 	LightManager* m_pLightMngr = nullptr; //Light Manager of the system
 	MeshManager* m_pMeshMngr = nullptr; //Mesh Manager
 	CameraManager* m_pCameraMngr = nullptr; //Singleton for the camera manager
-	
+	UI* ui = nullptr;
+	String* uiInfo = nullptr;
 	ControllerInput* m_pController[8]; //Controller
 	uint m_uActCont = 0; //Active Controller of the Application
 

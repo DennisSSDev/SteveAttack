@@ -59,6 +59,7 @@ void LaneGrid::Init()
 {
 	meshManager = Simplex::MeshManager::GetInstance();
 	entityManager = Simplex::MyEntityManager::GetInstance();
+	uiInstance = Simplex::UI::Instance();
 
 	leftLaneLocation = vector3(-10.f,2.75f,0.f);
 	middleLaneLocation = vector3(0.f,2.75f,0.f);
@@ -117,7 +118,9 @@ void LaneGrid::ExplodeProjectile()
 	projectileInstance->InvalidateProjectile();
 	
 	projectile = nullptr;
-
+	
+	uiInstance->KillEnemies(toDeleteEntities.size()-1);
+	uiInstance->AddToScore(1);
 	// swap with the list of entities that are still valid
 	entityIDLaneMap[projectileLane] = newEntityList;
 }
@@ -133,6 +136,21 @@ void LaneGrid::ReleaseInstance()
 
 void LaneGrid::Update(float delta)
 {
+	// todo: check distance against an arbitrary value and if any of the steves crosses it -> you lose
+	for (uint i = 0; i < 3; ++i)
+	{
+		const auto& entityIDs = entityIDLaneMap[i];
+		for (const auto& entityID : entityIDs)
+		{
+			const auto entity = entityManager->GetEntity(entityManager->GetEntityIndex(entityID));
+			if (distanceToEnd - entity->GetPosition().z < 0.f) 
+			{
+				uiInstance->PlayerDied();
+				break;
+			}
+		}
+	}
+
 	if(!projectile) return;
 	
 	const auto projLocation = projectile->GetPosition();
@@ -155,7 +173,7 @@ void LaneGrid::Update(float delta)
 			return;
 		}
 		timerValue += 15.f*delta;
-		if(timerValue > 5.f)
+		if(timerValue > 10.f)
 		{
 			ExplodeProjectile();
 			isTimerSet = false;
