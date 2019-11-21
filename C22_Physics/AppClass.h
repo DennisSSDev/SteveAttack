@@ -56,8 +56,10 @@ private:
 	ControllerInput* m_pController[8]; //Controller
 	uint m_uActCont = 0; //Active Controller of the Application
 
-	sf::SoundBuffer m_soundBuffer; //buffer to play sound from
-	sf::Sound m_sound; //sound effect
+	sf::SoundBuffer projectileBuffer; //buffer to play sound from
+	sf::Sound projectileShot;
+	sf::SoundBuffer zombieBuffer;
+	sf::Sound zombieDeath;
 	sf::Music m_soundBGM; //background music
 
 	bool showDebug = false; //displays debug box on left

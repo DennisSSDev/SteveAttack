@@ -2,7 +2,6 @@
 using namespace Simplex;
 void Application::InitVariables(void)
 {
-    
 	//Set the position and target of the camera
 	m_pCameraMngr->SetPositionTargetAndUpward(
 		vector3(0.0f, 5.0f, 25.0f), //Position
@@ -19,6 +18,24 @@ void Application::InitVariables(void)
 	v3Position.y = 0.0f;
 	matrix4 m4Position = glm::translate(v3Position);
 	m_pEntityMngr->SetModelMatrix(m4Position * glm::scale(vector3(2.0f)));
+
+	if (!projectileBuffer.loadFromFile("Data/Audio/BombExplosionShort.wav")) //Listen to audio and see if it's fitting
+	{
+		std::cout << "AUDIO FILE COULD NOT BE FOUND" << std::endl;
+	}
+	else
+	{
+		projectileShot.setBuffer(projectileBuffer);
+	}
+
+	if (!zombieBuffer.loadFromFile("Data/Audio/BombExplosionShort.wav")) //Get sound file from Minecraft, currently just a placeholder
+	{
+		std::cout << "AUDIO FILE COULD NOT BE FOUND" << std::endl;
+	}
+	else
+	{
+		zombieDeath.setBuffer(zombieBuffer);
+	}
 
 	laneGrid = LaneGrid::Instance();
     m_pSteveMngr = SteveManager::GetInstance();
