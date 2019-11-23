@@ -17,24 +17,7 @@ SteveManager::SteveManager() :
     m_nTotalSteves(0U),
     m_pLaneGrid(LaneGrid::Instance()),
     m_pEntityManager(MyEntityManager::GetInstance())
-{
-    // Seed random
-    srand(time(NULL));
-
-    // Populate SpawnPoint list
-    float tHorizontalSpacing = 1.f / static_cast<float>(m_nSpawnPointsPerLane + 1);
-    for (uint i = 0U; i < 3U; ++i) //For each lane
-    {
-        matrix4 tTransform = m_pLaneGrid->GetLaneTransform(i);
-        for (uint j = 1; j < m_nSpawnPointsPerLane + 1; ++j)         // For each spawn point required in that lane
-        {
-            // Apply Linear transformation to get proper x,z coords
-            vector4 tSpawnPoint = tTransform * vector4(-0.5f + (j * tHorizontalSpacing), 0.f, -0.5f, 1.f);
-            tSpawnPoint.y = -.5f;
-            m_spawnPoints.push_back(vector3(tSpawnPoint));
-        }
-    }
-}
+{}
 
 SteveManager::~SteveManager()
 {}
@@ -56,9 +39,31 @@ void SteveManager::Update(float dt)
     
 }
 
-void SteveManager::Init(uint a_initialSteveCount)
+void SteveManager::Init()
 {
-    SpawnInitialSteves(a_initialSteveCount);
+    // Seed random
+    srand(time(NULL));
+
+    // Populate SpawnPoint list
+    float tHorizontalSpacing = 1.f / static_cast<float>(m_nSpawnPointsPerLane + 1);
+    
+    //For each lane
+    for (uint i = 0U; i < 3U; ++i) 
+    {
+        matrix4 tTransform = m_pLaneGrid->GetLaneTransform(i);
+        
+        // For each spawn point required in that lane
+        for (uint j = 1; j < m_nSpawnPointsPerLane + 1; ++j)
+        {
+            // Apply Linear transformation to get proper x,z coords
+            vector4 tSpawnPoint = tTransform * vector4(-0.5f + (j * tHorizontalSpacing), 0.f, -0.5f, 1.f);
+            tSpawnPoint.y = -.5f;
+            m_spawnPoints.push_back(vector3(tSpawnPoint));
+        }
+    }
+
+    // Spawn Initial Enemies
+    SpawnInitialSteves();
 }
 
 void SteveManager::SpawnMob(vector3 a_position)
@@ -116,7 +121,7 @@ void SteveManager::GetMobInfo(_Out_ String* r_fileName, _Out_ float* r_mass)
     return;
 }
 
-void SteveManager::SpawnInitialSteves(uint a_initialSteveCount)
+void SteveManager::SpawnInitialSteves()
 {
     // For every spawn point spawn a mob
     for (uint i = 0; i < m_spawnPoints.size(); i++)

@@ -24,7 +24,7 @@ public:
     SteveManager();
     ~SteveManager();
 
-    void Init(uint a_initialSteveCount);
+    void Init();
 
     // This method handles: 
     // - Moving Steves forward
@@ -47,7 +47,7 @@ private: // Methods
     void GetMobInfo(_Out_ String* r_fileName, _Out_ float* mass);
 
     // Used inside Init() to initially populate the lane grid 
-    void SpawnInitialSteves(uint a_initialSteveCount);
+    void SpawnInitialSteves();
 
 private: // Members
     static SteveManager* m_pInstance;

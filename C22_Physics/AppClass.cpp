@@ -43,7 +43,7 @@ void Application::InitVariables(void)
 	laneGrid->SetProjectileReference(projectile);
 	ui = UI::Instance();
 	uiInfo = ui->GetGuiInfo();
-    m_pSteveMngr->Init(15U);
+    m_pSteveMngr->Init();
 }
 void Application::Update(void)
 {	
