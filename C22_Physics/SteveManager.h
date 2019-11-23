@@ -9,6 +9,7 @@ Date: 2019/11
 #include "MyEntityManager.h"
 #include "LaneGrid.h"
 #include <unordered_map>
+#include <vector>
 
 namespace Simplex{
 class SteveManager
@@ -50,8 +51,10 @@ private: // Methods
 
 private: // Members
     static SteveManager* m_pInstance;
+    
+    // Collection of spawn points and amount of points per lane
+    std::vector<vector3> m_spawnPoints;
+    const uint m_nSpawnPointsPerLane = 4U;
 };
 }
-
-
 #endif

@@ -20,6 +20,20 @@ SteveManager::SteveManager() :
 {
     // Seed random
     srand(time(NULL));
+
+    // Populate SpawnPoint list
+    float tHorizontalSpacing = 1 / (static_cast<float>(m_nSpawnPointsPerLane)+1);
+    for (uint i = 0U; i < 3U; ++i) //For each lane
+    {
+        matrix4 tTransform = m_pLaneGrid->GetLaneTransform(i);
+        for (uint j = 1; j < m_nSpawnPointsPerLane + 1; ++j)         // For each spawn point required in that lane
+        {
+            // Apply Linear transformation to get proper x,z coords
+            vector4 tSpawnPoint = tTransform * vector4(-0.5f + (j * tHorizontalSpacing), 0.f, -0.5f, 1.f);
+            tSpawnPoint.y = -.5f;
+            m_spawnPoints.push_back(vector3(tSpawnPoint));
+        }
+    }
 }
 
 SteveManager::~SteveManager()
@@ -28,7 +42,7 @@ SteveManager::~SteveManager()
 void SteveManager::Update(float dt)
 {
     const MyEntity* projectile = m_pLaneGrid->GetProjectileReference()->GetProjectileEntity();
-    const vector3 force(0.f, 0.f, 5.0f * dt);
+    const vector3 force(0.f, 0.f, 1.f * dt);
     for (int i = 0; i < 3; ++i) // for every lane
     {
         for (const auto entityID : m_pLaneGrid->GetEntityIDMap(i)) // for every entity in lane i
@@ -94,12 +108,12 @@ void SteveManager::GetMobInfo(_Out_ String* r_fileName, _Out_ float* r_mass)
 
 void SteveManager::SpawnInitialSteves(uint a_initialSteveCount)
 {
-    for (uint i = 0U; i < a_initialSteveCount; ++i)
+    // For every spawn point spawn a mob
+    for (uint i = 0; i < m_spawnPoints.size(); i++)
     {
-        float xValue = rand() % 20 - 10; // Random float [-10,10]
-
-        SpawnMob(vector3(xValue, -.5f, -3.f));
+        SpawnMob(m_spawnPoints[i]);
     }
+    
 }
 
 #pragma region Singleton-specific method definitions + implementation
