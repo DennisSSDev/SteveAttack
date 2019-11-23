@@ -22,7 +22,7 @@ SteveManager::SteveManager() :
     srand(time(NULL));
 
     // Populate SpawnPoint list
-    float tHorizontalSpacing = 1 / (static_cast<float>(m_nSpawnPointsPerLane)+1);
+    float tHorizontalSpacing = 1.f / static_cast<float>(m_nSpawnPointsPerLane + 1);
     for (uint i = 0U; i < 3U; ++i) //For each lane
     {
         matrix4 tTransform = m_pLaneGrid->GetLaneTransform(i);
