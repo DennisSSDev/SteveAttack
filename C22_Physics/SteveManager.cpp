@@ -92,15 +92,25 @@ void SteveManager::GetMobInfo(_Out_ String* r_fileName, _Out_ float* r_mass)
     int randomNumber = rand() % 100 + 1;
 
     /* All possible mob cases */
-    if (randomNumber < 50)
+    if (randomNumber < 25)
     {
         *r_fileName = "Minecraft\\Steve.obj";
         *r_mass = 1.f;
-    } 
-    else
+    }
+    else if (randomNumber >= 25 && randomNumber < 50)
+    {
+        *r_fileName = "Minecraft\\Creeper.obj";
+        *r_mass = 1.5f;
+    }
+    else if (randomNumber >= 50 && randomNumber < 75)
     {
         *r_fileName = "Minecraft\\Zombie.obj";
         *r_mass = 2.f;
+    }
+    else
+    {
+        *r_fileName = "Minecraft\\Cow.obj";
+        *r_mass = 1.7f;
     }
         
     return;
