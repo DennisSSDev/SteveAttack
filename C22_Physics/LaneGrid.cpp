@@ -69,14 +69,16 @@ void LaneGrid::Init()
 	entityIDLaneMap[1] = std::vector<String>();
 	entityIDLaneMap[2] = std::vector<String>();
 	
+    laneScaleFactor = Simplex::vector3(8.f, 5.f, 25.f);
 	// left
-	transform[0] = (glm::translate(IDENTITY_M4, leftLaneLocation) * glm::scale(Simplex::vector3(8.f, 5.f, 25.f)));
+    transform[0] = (glm::translate(IDENTITY_M4, leftLaneLocation) * glm::scale(laneScaleFactor));
 	// middle 
-	transform[1] = (glm::translate(IDENTITY_M4, middleLaneLocation) * glm::scale(Simplex::vector3(8.f, 5.f, 25.f)));
+	transform[1] = (glm::translate(IDENTITY_M4, middleLaneLocation) * glm::scale(laneScaleFactor));
 	// right
-	transform[2] = (glm::translate(IDENTITY_M4, rightLaneLocation) * glm::scale(Simplex::vector3(8.f, 5.f, 25.f)));
+	transform[2] = (glm::translate(IDENTITY_M4, rightLaneLocation) * glm::scale(laneScaleFactor));
 
-	floor = (glm::translate(IDENTITY_M4, vector3(0.f,-.5f,0.f)) * glm::scale(Simplex::vector3(27.f, 1.f, 26.f)));
+    floorScaleFactor = Simplex::vector3(27.f, 1.f, 26.f);
+	floor = (glm::translate(IDENTITY_M4, vector3(0.f,-.5f,0.f)) * glm::scale(floorScaleFactor));
 
 	laneLocations.push_back(leftLaneLocation);
 	laneLocations.push_back(middleLaneLocation);

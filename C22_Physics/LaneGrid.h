@@ -14,9 +14,11 @@ class LaneGrid
 private:
 
 	// visual scales of the lanes
+    Simplex::vector3 laneScaleFactor;
 	Simplex::matrix4 transform[3];
 
 	Simplex::matrix4 floor;
+    Simplex::vector3 floorScaleFactor;
 
 	const float distanceToEnd = 18.f;
 
@@ -70,6 +72,9 @@ public:
 	// lane can only be either 0, 1 or 2 (0 - leftmost, 2 - rightmost from player perspective)
 	const std::vector<Simplex::String>& GetEntityIDMap(const glm::uint& lane);
 	
+    Simplex::vector3 GetFloorScale() { return floorScaleFactor; }
+    Simplex::vector3 GetLaneScale()  { return laneScaleFactor;  }
+    Simplex::matrix4 GetLaneTransform(glm::uint index) { return transform[index]; }
 
 	/**
 	 * Call this function the moment you create an Entity utilizing the grid system.
