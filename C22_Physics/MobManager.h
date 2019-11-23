@@ -12,17 +12,17 @@ Date: 2019/11
 #include <vector>
 
 namespace Simplex{
-class SteveManager
+class MobManager
 {
-    uint m_steveCount = 0;
-    uint m_nTotalSteves = 0;
+    uint m_ActiveMobCount = 0;
+    uint m_nTotalMobs = 0;
     LaneGrid* m_pLaneGrid = nullptr;
     MyEntityManager* m_pEntityManager = nullptr;
 
 public:
     // Default Constructor and Destructor
-    SteveManager();
-    ~SteveManager();
+    MobManager();
+    ~MobManager();
 
     void Init();
 
@@ -33,7 +33,7 @@ public:
 
     #pragma region Singleton-specific method definitions + implementation
     // Allows external agents access to the SteveManager singleton through static pointer
-    static SteveManager* GetInstance();
+    static MobManager* GetInstance();
 
     static void ReleaseInstance();
     #pragma endregion
@@ -47,10 +47,10 @@ private: // Methods
     void GetMobInfo(_Out_ String* r_fileName, _Out_ float* mass);
 
     // Used inside Init() to initially populate the lane grid 
-    void SpawnInitialSteves();
+    void SpawnInitialMobs();
 
 private: // Members
-    static SteveManager* m_pInstance;
+    static MobManager* m_pInstance;
     
     // Collection of spawn points and amount of points per lane
     std::vector<vector3> m_spawnPoints;

@@ -38,7 +38,7 @@ void Application::InitVariables(void)
 	}
 
 	laneGrid = LaneGrid::Instance();
-    m_pSteveMngr = SteveManager::GetInstance();
+    m_pSteveMngr = MobManager::GetInstance();
 	projectile = new Projectile();
 	laneGrid->SetProjectileReference(projectile);
 	ui = UI::Instance();
@@ -99,7 +99,7 @@ void Application::Release(void)
 	MyEntityManager::ReleaseInstance();
 	LaneGrid::ReleaseInstance();
 	SafeDelete(projectile);
-    SteveManager::ReleaseInstance();
+    MobManager::ReleaseInstance();
 	UI::ReleaseInstance();
 	//release GUI
 	ShutdownGUI();

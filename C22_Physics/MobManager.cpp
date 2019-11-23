@@ -2,27 +2,27 @@
 Programmer: Ruben Young (ray6190@rit.edu)
 Date: 2019/11
 ----------------------------------------------*/
-#include "SteveManager.h"
+#include "MobManager.h"
 #include <stdlib.h> // rand
 #include "Projectile.h" // projectile
 #include <time.h>   // time(NULL)
 
 namespace Simplex {
 
-SteveManager* SteveManager::m_pInstance = nullptr;
+MobManager* MobManager::m_pInstance = nullptr;
 
 // Initializes steve count to 0 and grabs handle to lane grid singleton
-SteveManager::SteveManager() :
-    m_steveCount(0U),
-    m_nTotalSteves(0U),
+MobManager::MobManager() :
+    m_ActiveMobCount(0U),
+    m_nTotalMobs(0U),
     m_pLaneGrid(LaneGrid::Instance()),
     m_pEntityManager(MyEntityManager::GetInstance())
 {}
 
-SteveManager::~SteveManager()
+MobManager::~MobManager()
 {}
 
-void SteveManager::Update(float dt)
+void MobManager::Update(float dt)
 {
     const MyEntity* projectile = m_pLaneGrid->GetProjectileReference()->GetProjectileEntity();
     const vector3 force(0.f, 0.f, 1.f * dt);
@@ -39,7 +39,7 @@ void SteveManager::Update(float dt)
     
 }
 
-void SteveManager::Init()
+void MobManager::Init()
 {
     // Seed random
     srand(time(NULL));
@@ -63,14 +63,14 @@ void SteveManager::Init()
     }
 
     // Spawn Initial Enemies
-    SpawnInitialSteves();
+    SpawnInitialMobs();
 }
 
-void SteveManager::SpawnMob(vector3 a_position)
+void MobManager::SpawnMob(vector3 a_position)
 {
     // Generate uniqueID to pass to the entityManager
     std::ostringstream oss;
-    oss << "Mob" << m_nTotalSteves++;
+    oss << "Mob" << m_nTotalMobs++;
     String uniqueID = oss.str();
 
     // Load the entity in the entity manager
@@ -88,10 +88,10 @@ void SteveManager::SpawnMob(vector3 a_position)
     // Give info to the lane grid
     m_pLaneGrid->AddToLane(uniqueID);
 
-    ++m_steveCount;
+    ++m_ActiveMobCount;
 }
 
-void SteveManager::GetMobInfo(_Out_ String* r_fileName, _Out_ float* r_mass)
+void MobManager::GetMobInfo(_Out_ String* r_fileName, _Out_ float* r_mass)
 {
     // Random integer E [1,100]
     int randomNumber = rand() % 100 + 1;
@@ -121,7 +121,7 @@ void SteveManager::GetMobInfo(_Out_ String* r_fileName, _Out_ float* r_mass)
     return;
 }
 
-void SteveManager::SpawnInitialSteves()
+void MobManager::SpawnInitialMobs()
 {
     // For every spawn point spawn a mob
     for (uint i = 0; i < m_spawnPoints.size(); i++)
@@ -134,16 +134,16 @@ void SteveManager::SpawnInitialSteves()
 #pragma region Singleton-specific method definitions + implementation
 
 // Allows external agents access to the SteveManager singleton through static pointer
-SteveManager* SteveManager::GetInstance()
+MobManager* MobManager::GetInstance()
 {
     if (m_pInstance == nullptr)
     {
-        m_pInstance = new SteveManager();
+        m_pInstance = new MobManager();
     }
     return m_pInstance;
 }
 
-void SteveManager::ReleaseInstance()
+void MobManager::ReleaseInstance()
 {
     if (m_pInstance != nullptr)
     {

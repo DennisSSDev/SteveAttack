@@ -10,7 +10,7 @@ Date: 2017/06
 #include "ControllerConfiguration.h"
 #include "imgui\ImGuiObject.h"
 #include "LaneGrid.h"
-#include "SteveManager.h"
+#include "MobManager.h"
 #include "Projectile.h"
 
 #include "MyEntityManager.h"
@@ -66,7 +66,7 @@ private:
 	bool showDebug = false; //displays debug box on left
 
 	LaneGrid* laneGrid;
-    SteveManager* m_pSteveMngr;
+    MobManager* m_pSteveMngr;
 	Projectile* projectile;
 
 public:
