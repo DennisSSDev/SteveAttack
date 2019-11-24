@@ -35,8 +35,8 @@ private:
 	Simplex::MyEntityManager* entityManager = nullptr;
 
 	//Audio
-	sf::SoundBuffer deathBuffer;
-	sf::Sound zombieDeath;
+	//sf::SoundBuffer deathBuffer;
+	//sf::Sound zombieDeath;
 
 	std::unordered_map<glm::uint, std::vector<Simplex::String>> entityIDLaneMap;
 
