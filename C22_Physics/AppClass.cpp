@@ -19,7 +19,7 @@ void Application::InitVariables(void)
 	matrix4 m4Position = glm::translate(v3Position);
 	m_pEntityMngr->SetModelMatrix(m4Position * glm::scale(vector3(2.0f)));
 
-	if (!projectileBuffer.loadFromFile("Data/Audio/BombExplosionShort.wav")) //Listen to audio and see if it's fitting
+	if (!projectileBuffer.loadFromFile("Data/Audio/BombExplosionShort.wav"))
 	{
 		std::cout << "AUDIO FILE COULD NOT BE FOUND" << std::endl;
 	}
@@ -28,7 +28,7 @@ void Application::InitVariables(void)
 		projectileShot.setBuffer(projectileBuffer);
 	}
 
-	if (!zombieBuffer.loadFromFile("Data/Audio/BombExplosionShort.wav")) //Get sound file from Minecraft, currently just a placeholder
+	if (!zombieBuffer.loadFromFile("Data/Audio/minecraftOOF.mp3"))
 	{
 		std::cout << "AUDIO FILE COULD NOT BE FOUND" << std::endl;
 	}
