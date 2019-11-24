@@ -48,6 +48,8 @@ private:
 	Projectile* projectileInstance = nullptr;
 	Simplex::UI* uiInstance = nullptr;
 
+	Simplex::MyEntity* steveEntity = nullptr;
+
 	static LaneGrid* instance;
 
 private:
@@ -80,7 +82,7 @@ public:
 	 * Call this function the moment you create an Entity utilizing the grid system.
 	 * Once an Entity is spawned at a particular location it must be added to a lane immediately
 	 */
-	glm::uint AddToLane(Simplex::String entityID);
+	glm::uint AddToLane(Simplex::String entityID, bool addToMap = true);
 
 	/**
 	 * Call this function the moment you spawn a projectile.
@@ -90,7 +92,8 @@ public:
 
 	void SetProjectileReference(Projectile* instance);
     Projectile* GetProjectileReference() { return this->projectileInstance; }
-
+	void SetHelperSteveReference(Simplex::MyEntity* steve);
+	Simplex::MyEntity* GetHelperSteveReference();
 	/**
 	 * Lane Grid custom update to detect how far away is the projectile from the grid
 	 * if the Projectile is not inside the grid, it will try to check how high is the projectile.
@@ -100,5 +103,5 @@ public:
 	 */
 	void Update(float delta);
 	
-	void Display();
+	void Display(bool bShowCollisionBox = false);
 };

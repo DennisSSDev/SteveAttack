@@ -17,7 +17,7 @@ const std::vector<Simplex::String>& LaneGrid::GetEntityIDMap(const uint& lane)
 	return entityIDLaneMap[lane];
 }
 
-uint LaneGrid::AddToLane(Simplex::String entityID)
+uint LaneGrid::AddToLane(Simplex::String entityID, bool addToMap)
 {
 	uint closestBox = 0;
 	uint trackedBox = 0;
@@ -36,7 +36,10 @@ uint LaneGrid::AddToLane(Simplex::String entityID)
 	}
 	entity->ClearDimensionSet();
 	entity->AddDimension(closestBox);
-	entityIDLaneMap[closestBox].push_back(entityID);
+	if(addToMap)
+	{
+		entityIDLaneMap[closestBox].push_back(entityID);
+	}
 	return closestBox;
 }
 
@@ -49,6 +52,16 @@ void LaneGrid::AddProjectile(Simplex::MyEntity* projectile)
 void LaneGrid::SetProjectileReference(Projectile* instance)
 {
 	projectileInstance = instance;
+}
+
+void LaneGrid::SetHelperSteveReference(Simplex::MyEntity* steve)
+{
+	steveEntity = steve;
+}
+
+Simplex::MyEntity* LaneGrid::GetHelperSteveReference()
+{
+	return steveEntity;
 }
 
 LaneGrid::~LaneGrid()
@@ -138,7 +151,6 @@ void LaneGrid::ReleaseInstance()
 
 void LaneGrid::Update(float delta)
 {
-	// todo: check distance against an arbitrary value and if any of the steves crosses it -> you lose
 	for (uint i = 0; i < 3; ++i)
 	{
 		const auto& entityIDs = entityIDLaneMap[i];
@@ -152,18 +164,15 @@ void LaneGrid::Update(float delta)
 			}
 		}
 	}
-
+	if(steveEntity)
+		AddToLane(steveEntity->GetUniqueID(), false);
+	
+	// don't bother with the logic below if the projectile isn't spawned
 	if(!projectile) return;
 	
-	const auto projLocation = projectile->GetPosition();
-	if(projLocation.y > middleLaneLocation.y + 1.f) return;
-	if(!projectileInLane)
-	{
-		projectileInLane = true;
-		// add it to a dimension
-		projectileLane = AddToLane(projectile->GetUniqueID());
-		return;
-	}
+	const auto& projLocation = projectile->GetPosition();
+	AddToLane(projectile->GetUniqueID(), false);
+	
 	// check if close to ground / hit the ground
 	// if it hit the ground -> explode and invalidate the projectile
 	if(projLocation.y < 0.01f)
@@ -177,17 +186,26 @@ void LaneGrid::Update(float delta)
 		timerValue += 15.f*delta;
 		if(timerValue > 10.f)
 		{
+			if(!projectileInLane)
+			{
+				projectileInLane = true;
+				// add it to a dimension
+				projectileLane = AddToLane(projectile->GetUniqueID());
+			}
 			ExplodeProjectile();
 			isTimerSet = false;
 		}
 	}
 }
 
-void LaneGrid::Display()
+void LaneGrid::Display(bool bShowCollisionBox)
 {
-	meshManager->AddWireCubeToRenderList(transform[0], C_YELLOW, RENDER_WIRE);
-	meshManager->AddWireCubeToRenderList(transform[1], C_YELLOW, RENDER_WIRE);
-	meshManager->AddWireCubeToRenderList(transform[2], C_YELLOW, RENDER_WIRE);
+	if(bShowCollisionBox)
+	{
+		meshManager->AddWireCubeToRenderList(transform[0], C_YELLOW, RENDER_WIRE);
+		meshManager->AddWireCubeToRenderList(transform[1], C_YELLOW, RENDER_WIRE);
+		meshManager->AddWireCubeToRenderList(transform[2], C_YELLOW, RENDER_WIRE);
+	}
 	meshManager->AddCubeToRenderList(floor, C_GRAY);
 	meshManager->AddCubeToRenderList(floor, C_GREEN, RENDER_WIRE);
 }

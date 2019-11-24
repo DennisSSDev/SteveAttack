@@ -10,10 +10,21 @@ void Application::DrawGUI(void)
 	m_pMeshMngr->Print(uiInfo[0], C_YELLOW);
 	m_pMeshMngr->Print("\n");
 	m_pMeshMngr->PrintLine(uiInfo[1], C_RED);
+	if(showDebug)
+	{
+		const auto& arr1 = laneGrid->GetEntityIDMap(0);
+		const auto& arr2 = laneGrid->GetEntityIDMap(1);
+		const auto& arr3 = laneGrid->GetEntityIDMap(2);
+		m_pMeshMngr->Print("\n");
+		m_pMeshMngr->PrintLine("Lane 1 entities: " + std::to_string(arr1.size()), C_RED);
+		m_pMeshMngr->PrintLine("Lane 2 entities: " + std::to_string(arr2.size()), C_RED);
+		m_pMeshMngr->PrintLine("Lane 3 entities: " + std::to_string(arr3.size()), C_RED);
+	}
 	if (!ui->IsAlive()) // set this to false when one of the steves reaches the end of the zone
 	{
 		m_pMeshMngr->Print("\n\n\n\n\n\n\n                              YOU'VE LOST");
 	}
+	
 #pragma endregion
 
 	//Calculate the window size to know how to draw

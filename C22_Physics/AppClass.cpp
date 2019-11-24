@@ -41,6 +41,8 @@ void Application::InitVariables(void)
     m_pSteveMngr = MobManager::GetInstance();
 	projectile = new Projectile();
 	laneGrid->SetProjectileReference(projectile);
+	const uint steveIndex = m_pEntityMngr->GetEntityIndex("Steve");
+	laneGrid->SetHelperSteveReference(m_pEntityMngr->GetEntity(steveIndex));
 	ui = UI::Instance();
 	uiInfo = ui->GetGuiInfo();
     m_pSteveMngr->Init();
@@ -79,7 +81,7 @@ void Application::Display(void)
 	// draw a skybox
 	m_pMeshMngr->AddSkyboxToRenderList();
 
-	laneGrid->Display();
+	laneGrid->Display(showDebug);
 
 	//render list call
 	m_uRenderCallCount = m_pMeshMngr->Render();
