@@ -61,6 +61,16 @@ void LaneGrid::Init()
 	entityManager = Simplex::MyEntityManager::GetInstance();
 	uiInstance = Simplex::UI::Instance();
 
+	//Audio setup
+	/*if (!deathBuffer.loadFromFile("Data/Audio/minecraftOOF.mp3"))
+	{
+		std::cout << "AUDIO FILE COULD NOT BE FOUND" << std::endl;
+	}
+	else
+	{
+		zombieDeath.setBuffer(deathBuffer);
+	}*/
+
 	leftLaneLocation = vector3(-10.f,2.75f,0.f);
 	middleLaneLocation = vector3(0.f,2.75f,0.f);
 	rightLaneLocation = vector3(10.f,2.75f,0.f);
@@ -113,6 +123,7 @@ void LaneGrid::ExplodeProjectile()
 	for (const auto& entityID : toDeleteEntities)
 	{
 		entityManager->RemoveEntity(entityID);
+		//zombieDeath.play();
 	}
 
 	projectileInLane = false;
