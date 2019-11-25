@@ -30,9 +30,10 @@ private:
 	bool isTimerSet = false;
 	float timerValue = 0.f;
 		
-	// singleton to the mesh manager
+	// singleton to the managers
 	Simplex::MeshManager* meshManager = nullptr;
 	Simplex::MyEntityManager* entityManager = nullptr;
+    Simplex::MobManager* mobManager = nullptr;
 
 	//Audio
 	//sf::SoundBuffer deathBuffer;
