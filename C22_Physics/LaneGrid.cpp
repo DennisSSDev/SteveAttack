@@ -72,7 +72,6 @@ void LaneGrid::Init()
 {
 	meshManager = Simplex::MeshManager::GetInstance();
 	entityManager = Simplex::MyEntityManager::GetInstance();
-    mobManager = Simplex::MobManager::GetInstance();
 	uiInstance = Simplex::UI::Instance();
 
 	//Audio setup
@@ -147,7 +146,6 @@ void LaneGrid::ExplodeProjectile()
 	projectile = nullptr;
 	
 	uiInstance->KillEnemies(toDeleteEntities.size()-1);
-    
 	uiInstance->AddToScore(1);
 	// swap with the list of entities that are still valid
 	entityIDLaneMap[projectileLane] = newEntityList;
