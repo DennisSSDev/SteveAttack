@@ -31,6 +31,8 @@ public:
     // - Spawning new Steves (if necessary)
     void Update(float dt);
 
+    uint& GetActiveMobCount() { return m_ActiveMobCount; }
+
     #pragma region Singleton-specific method definitions + implementation
     // Allows external agents access to the SteveManager singleton through static pointer
     static MobManager* GetInstance();
