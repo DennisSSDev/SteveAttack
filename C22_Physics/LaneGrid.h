@@ -4,6 +4,7 @@
 #include "UI.h"
 #include "MyEntity.h"
 #include "MyEntityManager.h"
+#include "MobManager.h"
 #include "unordered_map"
 #include "vector"
 
