@@ -22,7 +22,7 @@ MobManager::MobManager() :
 MobManager::~MobManager()
 {}
 
-void MobManager::Update(float dt)
+void MobManager::Update(float dt, float totalTime)
 {
     const MyEntity* projectile = m_pLaneGrid->GetProjectileReference()->GetProjectileEntity();
     const vector3 force(0.f, 0.f, 1.f * dt);
@@ -36,7 +36,13 @@ void MobManager::Update(float dt)
             m_pEntityManager->ApplyForce(force, entityID);
         }
     }
-    
+
+    // Find and replenish needed mobs every 5 secs
+    if ((int)totalTime % 5 == 0)
+    {
+        CheckNeededSpawns();
+        FlushSpawnQueue();
+    }
 }
 
 void MobManager::Init()
@@ -129,6 +135,45 @@ void MobManager::SpawnInitialMobs()
         SpawnMob(m_spawnPoints[i]);
     }
     
+}
+
+void MobManager::CheckNeededSpawns()
+{
+    // For every lane list
+    for (uint i = 0; i < 3; ++i)
+    {
+        // I'm using the number of spawn points per lane as the heuristic for "ideal mob count per lane",
+        // when doing game tuning feel free to use a diff ideal # to fit your needs
+        if (m_pLaneGrid->GetEntityIDMap(i).size() < m_nSpawnPointsPerLane)
+        {
+            // How many mobs we need to spawn (Guaranteed to be positive number due to above comparison
+            const uint nToSpawn = m_nSpawnPointsPerLane - m_pLaneGrid->GetEntityIDMap(i).size();
+            
+            for (uint j = 0; j < nToSpawn; ++j)
+            {
+                // Here I generate an index through which to grab a predetermined spawn point at random
+                uint spawnIndex = (rand() % m_nSpawnPointsPerLane) + (m_nSpawnPointsPerLane * i);
+
+                // Grab spawn point from spawn points list
+                vector3 spawnPoint = m_spawnPoints[spawnIndex];
+
+                // Add spawn point to spawn queue
+                m_ToSpawnQueue.push(spawnPoint);
+            }
+        }
+    }
+}
+
+void MobManager::FlushSpawnQueue()
+{
+    // Go through the queue and spawn a mob at each position
+    while (!m_ToSpawnQueue.empty())
+    {
+        vector3 pos = m_ToSpawnQueue.front();
+        SpawnMob(pos);
+        m_ToSpawnQueue.pop();
+    }
+    assert(m_ToSpawnQueue.empty());
 }
 
 #pragma region Singleton-specific method definitions + implementation

@@ -50,7 +50,7 @@ void Application::InitVariables(void)
 void Application::Update(void)
 {	
 	float delta = m_pSystem->GetDeltaTime(18);
-
+    float totalTime = m_pSystem->GetTimeSinceStart(18);
 	//Update the system so it knows how much time has passed since the last call
 	m_pSystem->Update();
 
@@ -58,7 +58,7 @@ void Application::Update(void)
 	CameraRotation();
 
     // Update the AI Manager
-    m_pSteveMngr->Update(delta);
+    m_pSteveMngr->Update(delta, totalTime);
 
     //Update Entity Manager
 	m_pEntityMngr->Update();
