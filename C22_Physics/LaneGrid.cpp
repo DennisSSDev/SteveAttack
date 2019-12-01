@@ -92,7 +92,7 @@ void LaneGrid::Init()
 	entityIDLaneMap[1] = std::vector<String>();
 	entityIDLaneMap[2] = std::vector<String>();
 	
-    laneScaleFactor = Simplex::vector3(8.f, 5.f, 25.f);
+    laneScaleFactor = Simplex::vector3(8.f, 5.f, 45.f);
 	// left
     transform[0] = (glm::translate(IDENTITY_M4, leftLaneLocation) * glm::scale(laneScaleFactor));
 	// middle 
@@ -100,7 +100,7 @@ void LaneGrid::Init()
 	// right
 	transform[2] = (glm::translate(IDENTITY_M4, rightLaneLocation) * glm::scale(laneScaleFactor));
 
-    floorScaleFactor = Simplex::vector3(27.f, 1.f, 26.f);
+    floorScaleFactor = Simplex::vector3(27.f, 1.f, 45.f);
 	floor = (glm::translate(IDENTITY_M4, vector3(0.f,-.5f,0.f)) * glm::scale(floorScaleFactor));
 
 	laneLocations.push_back(leftLaneLocation);
@@ -165,15 +165,19 @@ void LaneGrid::Update(float delta)
 	for (uint i = 0; i < 3; ++i)
 	{
 		const auto& entityIDs = entityIDLaneMap[i];
+		std::vector<Simplex::String> newEntityList;
 		for (const auto& entityID : entityIDs)
 		{
 			const auto entity = entityManager->GetEntity(entityManager->GetEntityIndex(entityID));
 			if (distanceToEnd - entity->GetPosition().z < 0.f) 
 			{
+				entityManager->RemoveEntity(entityID);
 				uiInstance->PlayerDied();
-				break;
+				continue;
 			}
+			newEntityList.push_back(entityID);
 		}
+		entityIDLaneMap[i] = newEntityList;
 	}
 	if(steveEntity)
 		AddToLane(steveEntity->GetUniqueID(), false);

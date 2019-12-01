@@ -20,7 +20,7 @@ private:
 	Simplex::matrix4 floor;
     Simplex::vector3 floorScaleFactor;
 
-	const float distanceToEnd = 18.f;
+	const float distanceToEnd = 25.f;
 
 	//reference to an active projectile in the level
 	Simplex::MyEntity* projectile = nullptr;

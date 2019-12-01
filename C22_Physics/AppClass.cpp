@@ -11,6 +11,9 @@ void Application::InitVariables(void)
 	m_pLightMngr->SetPosition(vector3(0.0f, 3.0f, 13.0f), 1); //set the position of first light (0 is reserved for ambient light)
 
 	m_pEntityMngr->AddEntity("Minecraft\\Steve.obj", "Steve");
+	vector3 v3PositionSteve = vector3(0.f, 0.f, 0.f);
+	matrix4 m4PositionSteve = glm::translate(v3PositionSteve);
+	m_pEntityMngr->SetModelMatrix(m4PositionSteve * glm::scale(vector3(3.0f)));
 	m_pEntityMngr->UsePhysicsSolver();
 
 	m_pEntityMngr->AddEntity("Minecraft\\Cube.obj", "Cube_0");
@@ -18,6 +21,12 @@ void Application::InitVariables(void)
 	v3Position.y = 0.0f;
 	matrix4 m4Position = glm::translate(v3Position);
 	m_pEntityMngr->SetModelMatrix(m4Position * glm::scale(vector3(2.0f)));
+
+	m_pEntityMngr->AddEntity("Minecraft\\Creeper.obj", "Cube_1_test");
+	vector3 v3Position2 = vector3(100, 0.f, 110.f);
+	v3Position.y = 0.0f;
+	matrix4 m4Position2 = glm::translate(v3Position);
+	m_pEntityMngr->SetModelMatrix(m4Position2 * glm::scale(vector3(2.0f)));
 
 	if (!projectileBuffer.loadFromFile("Data/Audio/BombExplosionShort.wav"))
 	{
